@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    build: ./authentication-microservice
+    command: npm run dev
+    volumes:
+      - ./authentication-microservice:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "8080:8080"
+    links:
+      - auth_mongo
+    environment:
+      - dev=1
+      - db_service_name=auth_mongo
+      - db_name=auth
+      - db_retry_time=3000
+  auth_mongo:
+    container_name: auth_mongo
+    image: mongo
+    volumes:
+      - ./db:/data/db
+    ports:
+      - "27017:27017"
