@@ -17,6 +17,7 @@ services:
       - db_username=admin
       - db_password=admin
       - db_retry_time=3000
+      - jwt_secret=secret-jwt-key
   auth_mongo:
     container_name: auth_mongo
     image: mongo:latest

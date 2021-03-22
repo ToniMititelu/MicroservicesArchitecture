@@ -36,7 +36,7 @@ const add_test_user = async (req, res, next) => {
     return res.status(400).json({ err: `USer ${newUser.email} already exists`});
 }
 
-const mongoUri = `mongodb://auth_mongo:${MONGO_PORT}/auth`;
+const mongoUri = `mongodb://${process.env.db_service_name}:${MONGO_PORT}/${process.env.db_name}`;
 
 mongoose.connect(mongoUri, {
     useNewUrlParser: true 

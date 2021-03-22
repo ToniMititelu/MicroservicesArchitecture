@@ -1,12 +1,37 @@
 const { StatusCodes } = require('http-status-codes');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 require('../models/User');
 const User = mongoose.model('users');
 
-const logIn = async (req, res) => {
+const jwt_secret = process.env.jwt_secret;
 
+const logIn = async (req, res) => {
+    const logInData = {...req.body};
+
+    const user = await User.findOne({'email': logInData.email}).lean().exec();
+
+    if (!user) {
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': `User ${logInData.email} does not exist`});
+    }
+
+    let match;
+    try {
+        match = await bcrypt.compare(logInData.password, user.password);
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, please try again'});
+    }
+
+    if (!match) {
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Wrong password'});
+    } 
+
+    const token = jwt.sign({ data: user._id.toString() }, jwt_secret);
+
+    return res.status(StatusCodes.BAD_REQUEST).json({'token': token});
 };
 
 const register = async (req, res) => {
@@ -48,6 +73,7 @@ const register = async (req, res) => {
     try {
         registeredUser = await newUser.save();
     } catch (e) {
+        console.error(e);
         return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, please try again'});
     }
 
@@ -55,7 +81,12 @@ const register = async (req, res) => {
 };
 
 const me = async (req, res) => {
-
+    const id = res.locals.decoded;
+    const user = await User.findById(id)
+                            .select('_id firstName lastName role email')
+                            .lean()
+                            .exec();
+    return res.status(StatusCodes.OK).json(user);
 }
 
 const users = async (req, res) => {
