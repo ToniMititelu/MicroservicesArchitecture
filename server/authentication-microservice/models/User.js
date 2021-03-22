@@ -3,7 +3,11 @@ const Schema = moongose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -13,6 +17,11 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        enum: ['Admin', 'User', 'Doctor'],
         required: true
     },
     date: {

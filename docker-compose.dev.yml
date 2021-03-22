@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  auth_mongo:
+    container_name: auth_mongo
+    image: mongo:latest
+    volumes:
+      - ./db-dev:/data/db
+    ports:
+      - "27017:27017"
