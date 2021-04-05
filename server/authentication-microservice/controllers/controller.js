@@ -11,6 +11,8 @@ const jwt_secret = process.env.jwt_secret;
 const logIn = async (req, res) => {
     const logInData = {...req.body};
 
+    console.log(logInData);
+
     const user = await User.findOne({'email': logInData.email}).lean().exec();
 
     if (!user) {
@@ -29,7 +31,15 @@ const logIn = async (req, res) => {
         return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Wrong password'});
     } 
 
-    const token = jwt.sign({ data: user._id.toString() }, jwt_secret);
+    const data = {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role
+    }
+
+    const token = jwt.sign({ data: data }, jwt_secret);
 
     return res.status(StatusCodes.BAD_REQUEST).json({'token': token});
 };
@@ -81,12 +91,7 @@ const register = async (req, res) => {
 };
 
 const me = async (req, res) => {
-    const id = res.locals.decoded;
-    const user = await User.findById(id)
-                            .select('_id firstName lastName role email')
-                            .lean()
-                            .exec();
-    return res.status(StatusCodes.OK).json(user);
+    return res.status(StatusCodes.OK).json(res.locals.decoded);
 }
 
 const users = async (req, res) => {
