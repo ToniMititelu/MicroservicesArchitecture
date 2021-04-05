@@ -5,11 +5,11 @@ const adminMiddleware = require("../middlewares/admin");
 
 const router = new Router();
 
-router.get('/api/test', (req, res) => { return res.json({'msg': 'ok'}) });
-router.get('/api/me', authenticationMiddleware, controller.me);
-router.get('/api/users', authenticationMiddleware, adminMiddleware, controller.users);
+router.get('/test', (req, res) => { return res.json({'msg': 'ok'}) });
+router.get('/me', authenticationMiddleware, controller.me);
+router.get('/users', authenticationMiddleware, adminMiddleware, controller.users);
 
-router.post('/api/login', controller.logIn);
-router.post('/api/register', controller.register);
+router.post('/login', controller.logIn);
+router.post('/register', controller.register);
 
 module.exports = router;
