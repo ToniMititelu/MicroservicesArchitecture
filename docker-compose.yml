@@ -11,6 +11,9 @@ services:
       - "8081:8080"
     links:
       - auth_mongo
+    depends_on:
+      - auth_mongo
+    restart: always
     environment:
       - dev=1
       - db_service_name=auth_mongo
@@ -23,11 +26,35 @@ services:
     container_name: auth_mongo
     image: mongo:latest
     volumes:
-      - ./db:/data/db
+      - ./data/mongo-auth-db:/data/db
     ports:
       - "27017:27017"
-  nginx:
-    container_name: nginx
+    restart: always
+  listings_service:
+    container_name: listings_service
+    build: ./server/listings-microservice
+    command: python manage.py runserver 0.0.0.0:8080
+    ports: 
+      - "8082:8080"
+    links: 
+      - listings_postgres
+    depends_on:
+      - listings_postgres
+    restart: always    
+  listings_postgres:
+    container_name: listings_postgres
+    image: postgres:latest
+    volumes:
+      - ./data/postgres-listings-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  micro_nginx:
+    container_name: micro_nginx
     image: nginx:latest
     ports:
       - "8080:8080"
