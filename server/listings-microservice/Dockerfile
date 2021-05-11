@@ -11,4 +11,4 @@ COPY Pipfile Pipfile.lock ./
 
 RUN pipenv install --deploy --system --dev
 
-COPY ./listings /usr/app
+COPY . /usr/app
