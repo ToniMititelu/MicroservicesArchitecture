@@ -55,6 +55,36 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  orders_service:
+    container_name: orders_service
+    build: ./server/orders-microservice
+    command: npm run dev
+    volumes:
+      - ./server/orders-microservice:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "8083:8080"
+    links:
+      - orders_mongo
+    depends_on:
+      - orders_mongo
+    restart: always
+    environment:
+      - dev=1
+      - db_service_name=orders_mongo
+      - db_name=auth
+      - db_username=admin
+      - db_password=admin
+      - db_retry_time=3000
+      - jwt_secret=secret-jwt-key
+  orders_mongo:
+    container_name: orders_mongo
+    image: mongo:latest
+    volumes:
+      - ./data/mongo-orders-db:/data/db
+    ports:
+      - "27018:27017"
+    restart: always
   micro_nginx:
     container_name: micro_nginx
     image: nginx:latest
