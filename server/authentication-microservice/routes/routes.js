@@ -5,7 +5,7 @@ const adminMiddleware = require("../middlewares/admin");
 
 const router = new Router();
 
-router.get('/test', (req, res) => { return res.json({'msg': 'ok'}) });
+router.get('/test', (req, res) => { return res.json({'msg': 'ok reload'}) });
 router.get('/me', authenticationMiddleware, controller.me);
 router.get('/users', authenticationMiddleware, adminMiddleware, controller.users);
 

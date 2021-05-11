@@ -9,4 +9,4 @@ def test(request, a: int, b: int):
 
 @api.get("/test2")
 def test2(request):
-    return {'d': 'a'}
+    return {'d': 'a reload test 2'}
