@@ -85,6 +85,36 @@ services:
     ports:
       - "27018:27017"
     restart: always
+  shipments_service:
+    container_name: shipments_service
+    build: ./server/shipments-microservice
+    command: npm run dev
+    volumes:
+      - ./server/shipments-microservice:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "8084:8080"
+    links:
+      - shipments_mongo
+    depends_on:
+      - shipments_mongo
+    restart: always
+    environment:
+      - dev=1
+      - db_service_name=shipments_mongo
+      - db_name=auth
+      - db_username=admin
+      - db_password=admin
+      - db_retry_time=3000
+      - jwt_secret=secret-jwt-key
+  shipments_mongo:
+    container_name: shipments_mongo
+    image: mongo:latest
+    volumes:
+      - ./data/mongo-shipments-db:/data/db
+    ports:
+      - "27019:27017"
+    restart: always
   micro_nginx:
     container_name: micro_nginx
     image: nginx:latest
