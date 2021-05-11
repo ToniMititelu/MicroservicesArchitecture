@@ -115,6 +115,36 @@ services:
     ports:
       - "27019:27017"
     restart: always
+  chat_service:
+    container_name: chat_service
+    build: ./server/chat-microservice
+    command: npm run dev
+    volumes:
+      - ./server/chat-microservice:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "8085:8080"
+    links:
+      - chat_mongo
+    depends_on:
+      - chat_mongo
+    restart: always
+    environment:
+      - dev=1
+      - db_service_name=chat_mongo
+      - db_name=auth
+      - db_username=admin
+      - db_password=admin
+      - db_retry_time=3000
+      - jwt_secret=secret-jwt-key
+  chat_mongo:
+    container_name: chat_mongo
+    image: mongo:latest
+    volumes:
+      - ./data/mongo-chat-db:/data/db
+    ports:
+      - "27020:27017"
+    restart: always
   micro_nginx:
     container_name: micro_nginx
     image: nginx:latest
