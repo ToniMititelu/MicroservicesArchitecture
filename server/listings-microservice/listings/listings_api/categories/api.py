@@ -6,10 +6,10 @@ from ..models import GameCategory
 
 router = Router()
 
-@router.post("/", response=GameCategoryOut)
+@router.post("/", response={201: GameCategoryOut})
 def create_game_category(request, payload: GameCategoryIn):
     game_category = GameCategory.objects.create(**payload.dict())
-    return game_category
+    return 201, game_category
 
 @router.get("/", response=List[GameCategoryOut])
 def get_game_categories(request):
