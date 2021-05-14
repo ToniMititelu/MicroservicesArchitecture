@@ -2,6 +2,8 @@ from ninja import NinjaAPI
 from .utils import GlobalAuth
 from .categories.api import router as categories_router
 from .games.api import router as games_router
+from .currencies.api import router as currencies_router
+from .platforms.api import router as platforms_router
 
 api = NinjaAPI(auth=GlobalAuth())
 
@@ -14,4 +16,6 @@ def test2(request):
     return request.auth
 
 api.add_router("/gamecategories/", categories_router)
+api.add_router("/platforms/", platforms_router)
 api.add_router("/games/", games_router)
+api.add_router("/currencies/", currencies_router)
