@@ -67,3 +67,13 @@ class GameListingOut(Schema):
     category: GameCategoryOut
     platform: PlatformOut
     currency: CurrencyOut
+
+
+class UserFavouriteIn(Schema):
+    listing_id: int
+
+
+class UserFavouriteOut(Schema):
+    id: int
+    user_id: str
+    listing_id: int

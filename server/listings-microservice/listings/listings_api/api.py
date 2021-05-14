@@ -4,6 +4,7 @@ from .categories.api import router as categories_router
 from .games.api import router as games_router
 from .currencies.api import router as currencies_router
 from .platforms.api import router as platforms_router
+from .favorites.api import router as favorites_router
 
 api = NinjaAPI(auth=GlobalAuth())
 
@@ -19,3 +20,4 @@ api.add_router("/gamecategories/", categories_router)
 api.add_router("/platforms/", platforms_router)
 api.add_router("/games/", games_router)
 api.add_router("/currencies/", currencies_router)
+api.add_router("/favorites/", favorites_router)
