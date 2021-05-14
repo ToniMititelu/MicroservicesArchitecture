@@ -15,17 +15,42 @@ class GameCategoryIn(Schema):
 
 
 class GameCategoryOut(Schema):
+    id: int
     name: str
+
+
+class PlatformIn(Schema):
+    short_name: str
+    full_name: str
+
+
+class PlatformOut(Schema):
+    id: int
+    short_name: str
+    full_name: str
+
+
+class CurrencyIn(Schema):
+    name: str
+    symbol: str
+
+
+class CurrencyOut(Schema):
+    id: int
+    name: str
+    symbol: str
 
 
 class GameListingIn(Schema):
     name: str
     description: str
     price: float
-    negotiable: bool = False
+    is_negotiable: bool = False
     is_sealed: bool = False
     is_digital: bool = False
     category_id: int
+    currency_id: int
+    platform_id: int
 
 
 class GameListingOut(Schema):
@@ -34,8 +59,11 @@ class GameListingOut(Schema):
     description: str
     price: float
     user_id: str
-    negotiable: bool = False
+    is_negotiable: bool = False
     is_sealed: bool = False
     is_digital: bool = False
+    is_active: bool
     expiration_date: datetime
     category: GameCategoryOut
+    platform: PlatformOut
+    currency: CurrencyOut

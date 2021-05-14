@@ -1,23 +1,40 @@
 from ninja import Router
 from typing import List
 from django.shortcuts import get_object_or_404
-from ..utils import is_admin, is_owner
+from ..utils import is_admin, is_owner, get_listing_expiration_date
 from ..schemas import GameListingIn, GameListingOut, Error, Success
-from ..models import GameListing, GameCategory
+from ..models import GameListing, GameCategory, Currency, Platform
 
 router = Router()
 
 @router.post("/", response={201: GameListingOut, 400: Error})
 def create_game_listing(request, payload: GameListingIn):
     game_listing = payload.dict()
+
     category_id = game_listing.pop('category_id', None)
     try:
         game_category = GameCategory.objects.get(id=category_id)
     except GameCategory.DoesNotExist:
         return 400, {"message": "Game category not found"}
     
+    currency_id = game_listing.pop('currency_id', None)
+    try:
+        currency = Currency.objects.get(id=currency_id)
+    except Currency.DoesNotExist:
+        return 400, {"message": "Currency not found"}
+    
+    platform_id = game_listing.pop('platform_id', None)
+    try:
+        platform = Platform.objects.get(id=platform_id)
+    except Platform.DoesNotExist:
+        return 400, {"message": "Platform not found"}
+
     game_listing['user_id'] = request.auth['id']
-    game_listing = GameListing.objects.create(**game_listing, category=game_category)
+    game_listing['category'] = game_category
+    game_listing['currency'] = currency
+    game_listing['platform'] = platform
+    game_listing['expiration_date'] = get_listing_expiration_date()
+    game_listing = GameListing.objects.create(**game_listing)
     return 201, game_listing
 
 @router.get("/", response=List[GameListingOut], auth=None)
