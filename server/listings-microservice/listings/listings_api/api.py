@@ -1,17 +1,17 @@
 from ninja import NinjaAPI
-from ninja.security import HttpBearer
+from .utils import GlobalAuth
 from .categories.api import router as categories_router
 from .games.api import router as games_router
 
-api = NinjaAPI()
+api = NinjaAPI(auth=GlobalAuth())
 
-@api.get("/test")
-def test(request, a: int, b: int):
-    return {'result': a + b}
+@api.get("/test", auth=None)
+def test(request):
+    return {'result': 'No auth'}
 
 @api.get("/test2")
 def test2(request):
-    return {'d': 'a reload test 2'}
+    return request.auth
 
 api.add_router("/gamecategories/", categories_router)
 api.add_router("/games/", games_router)

@@ -6,6 +6,10 @@ class Error(Schema):
     message: str
 
 
+class Success(Schema):
+    message: str
+
+
 class GameCategoryIn(Schema):
     name: str
 
@@ -18,7 +22,6 @@ class GameListingIn(Schema):
     name: str
     description: str
     price: float
-    user_id: str
     negotiable: bool = False
     is_sealed: bool = False
     is_digital: bool = False
@@ -26,6 +29,7 @@ class GameListingIn(Schema):
 
 
 class GameListingOut(Schema):
+    id: int
     name: str
     description: str
     price: float
