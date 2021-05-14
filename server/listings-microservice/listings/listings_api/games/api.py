@@ -1,6 +1,7 @@
 from ninja import Router
 from typing import List
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from ..utils import is_admin, is_owner, get_listing_expiration_date
 from ..schemas import GameListingIn, GameListingOut, Error, Success
 from ..models import GameListing, GameCategory, Currency, Platform
@@ -38,10 +39,18 @@ def create_game_listing(request, payload: GameListingIn):
     return 201, game_listing
 
 @router.get("/", response=List[GameListingOut], auth=None)
-def get_game_listings(request, user_id: str = None):
+def get_game_listings(request, user_id: str = None, status: str = None):
     game_listings = GameListing.objects.all()
     if user_id:
-        return game_listings.filter(user_id=user_id)
+        game_listings = game_listings.filter(user_id=user_id)
+    if status:
+        filters = dict()
+        now = timezone.now()
+        if status == 'active':
+            filters['expiration_date__gte'] = now
+        elif status == 'inactive':
+            filters['expiration_date__lt'] = now
+        game_listings = game_listings.filter(**filters)
     return game_listings
 
 @router.get("/mine/", response=List[GameListingOut])
