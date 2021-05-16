@@ -3,11 +3,7 @@ const Schema = moongose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
+    userName: {
         type: String,
         required: true
     },

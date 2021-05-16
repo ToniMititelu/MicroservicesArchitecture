@@ -33,8 +33,7 @@ const logIn = async (req, res) => {
 
     const data = {
         id: user._id.toString(),
-        firstName: user.firstName,
-        lastName: user.lastName,
+        userName: user.userName,
         email: user.email,
         role: user.role
     }
@@ -72,8 +71,7 @@ const register = async (req, res) => {
     }
 
     const newUser = new User({
-        'firstName': registerData.firstName,
-        'lastName': registerData.lastName,
+        'userName': registerData.userName,
         'email': registerData.email,
         'password': hashedPassword,
         'role': registerData.role
