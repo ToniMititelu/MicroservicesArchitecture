@@ -1,1 +1,31 @@
-<p>register works!</p>
+<div>{{showRegister}}</div>
+<p-toast></p-toast>
+<p-dialog [(visible)]="showRegister" [style]="{width: '350px'}" header="Register"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field">
+      <label for="username">Username</label>
+      <input type="text" pInputText id="username" [(ngModel)]="user.username" required/>
+    </div>
+    <p-divider></p-divider>
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input type="email" pInputText id="email" [(ngModel)]="user.email" [email]="true" required/>
+    </div>
+    <p-divider></p-divider>
+    <div class="p-field">
+      <label>Password</label>
+      <p-password [(ngModel)]="user.password_1" [toggleMask]="true"></p-password>
+    </div>
+    <p-divider></p-divider>
+    <div class="p-field">
+      <label>Password</label>
+      <p-password [(ngModel)]="user.password_2" [toggleMask]="true"></p-password>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-user-plus" (click)="register()"
+              label="Register" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

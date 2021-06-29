@@ -1,15 +1,75 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {User, UserRegister} from '../../models/user.interface';
+import {MessageService} from 'primeng/api';
+import {AuthService} from '../../services/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  providers: [MessageService]
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnChanges {
 
-  constructor() { }
+  @Input() showRegister = false;
+  user: UserRegister = {role: 'ROLE_USER'};
+  requiredFields = ['username', 'email', 'password_1', 'password_2'];
 
-  ngOnInit(): void {
+  constructor(readonly messageService: MessageService,
+              readonly authService: AuthService) {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
+  register(): void {
+    const missingFields = [];
+    this.requiredFields.forEach(field => {
+      if (!this.user[field]) {
+        missingFields.push({
+          severity: 'error',
+          summary: 'Field missing',
+          detail: `${field} is required`
+        });
+      }
+    });
+    if (missingFields.length) {
+      this.messageService.addAll(missingFields);
+      return;
+    }
+
+    if (!this.validateEmail(this.user.email)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Email is not valid'
+      });
+      return;
+    }
+
+    if (this.user.password_1 !== this.user.password_2) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Passwords do not match'
+      });
+      return;
+    }
+
+    this.authService.register(this.user)
+      .subscribe((response: User) => {
+        window.location.reload();
+      }, (error: HttpErrorResponse) => {
+        console.error(error);
+        this.messageService.add({
+          severity: 'danger',
+          summary: 'Something went wrong, try again'
+        });
+      });
+  }
+
+  validateEmail(email: string): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+  }
 }

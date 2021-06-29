@@ -6,13 +6,12 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
 
   showLogIn = false;
   showRegister = false;
-
   items: MenuItem[] = [
     {
       label: 'Admin',
@@ -26,18 +25,18 @@ export class NavbarComponent implements OnInit {
     {
       label: 'Log In',
       icon: 'pi pi-fw pi-sign-in',
-      command: this.logIn,
+      command: (event: Event) => this.logIn(),
     },
     {
       label: 'Register',
       icon: 'pi pi-fw pi-user-plus',
-      command: this.register,
+      command: (event: Event) => this.register(),
     },
     {
       label: 'Log Out',
       icon: 'pi pi-fw pi-sign-out',
-      command: this.logOut,
-    }
+      command: (event: Event) => this.logOut(),
+    },
   ];
 
   constructor(readonly authService: AuthService,
@@ -46,15 +45,15 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logIn() {
+  logIn(): void {
     this.showLogIn = true;
   }
 
-  register() {
+  register(): void {
     this.showRegister = true;
   }
 
-  logOut() {
+  logOut(): void {
     this.localStorageService.clearLocalStorage();
   }
 
