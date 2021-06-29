@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 const PORT = 8080;
@@ -14,10 +15,11 @@ mongoose.connect(mongoUri, {
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use('/', require('./routes/routes'));
 
-app.listen(PORT, () => console.log(`All set up. Listening on ${PORT}!`))
+app.listen(PORT, () => console.log(`All set up. Listening  on ${PORT}!`))

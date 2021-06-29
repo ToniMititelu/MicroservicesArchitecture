@@ -45,7 +45,7 @@ services:
     restart: always    
   listings_postgres:
     container_name: listings_postgres
-    image: postgres:latest
+    image: postgres:12
     volumes:
       - ./data/postgres-listings-db:/var/lib/postgresql/data
     ports:

@@ -110,7 +110,7 @@ const generateTokens = async (user) => {
         role: user.role
     }
 
-    const access_token = jwt.sign({ data: data }, jwt_secret, {expiresIn: '1d'});
+    const access_token = jwt.sign({ data: data }, jwt_secret, {expiresIn: 5});
     const refresh_token = jwt.sign({ data: {id: data.id}}, jwt_secret);
 
     return {

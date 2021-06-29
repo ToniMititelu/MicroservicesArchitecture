@@ -10,7 +10,7 @@ const authenticationMiddleware = (req, res, next) => {
         res.locals.decoded = jwt.verify(token, jwt_secret).data;
         next();
     } catch(e) {
-        return res.status(StatusCodes.FORBIDDEN).json({'message': 'Invalid token'});
+        return res.status(StatusCodes.UNAUTHORIZED).json({'message': 'Invalid token'});
     }
 };
 
