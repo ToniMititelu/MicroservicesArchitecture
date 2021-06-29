@@ -11,8 +11,6 @@ const jwt_secret = process.env.jwt_secret;
 const logIn = async (req, res) => {
     const logInData = {...req.body};
 
-    console.log(logInData);
-
     const user = await User.findOne({'email': logInData.email}).lean().exec();
 
     if (!user) {
@@ -31,16 +29,7 @@ const logIn = async (req, res) => {
         return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Wrong password'});
     } 
 
-    const data = {
-        id: user._id.toString(),
-        userName: user.userName,
-        email: user.email,
-        role: user.role
-    }
-
-    const token = jwt.sign({ data: data }, jwt_secret);
-
-    return res.status(StatusCodes.BAD_REQUEST).json({'token': token});
+    return res.status(StatusCodes.ACCEPTED).json(await generateTokens(user));
 };
 
 const register = async (req, res) => {
@@ -88,6 +77,21 @@ const register = async (req, res) => {
     return res.status(StatusCodes.CREATED).json(registeredUser);
 };
 
+const refreshToken = async (req, res) => {
+    const token = req.body.refresh_token;
+    try{ 
+        const tokenData = jwt.verify(token, jwt_secret).data;
+        const user = await User.findById(tokenData.id).lean().exec();
+        if (!user) {
+            return res.status(StatusCodes.FORBIDDEN).json({'message': 'User not found'});
+        }
+        return res.status(StatusCodes.ACCEPTED).json(await generateTokens(user));
+    } catch(e) {
+        console.error(e);
+        return res.status(StatusCodes.FORBIDDEN).json({'message': 'Invalid refresh token'});
+    }
+}
+
 const me = async (req, res) => {
     return res.status(StatusCodes.OK).json(res.locals.decoded);
 }
@@ -98,9 +102,27 @@ const users = async (req, res) => {
     );
 }
 
+const generateTokens = async (user) => {
+    const data = {
+        id: user._id.toString(),
+        userName: user.userName,
+        email: user.email,
+        role: user.role
+    }
+
+    const access_token = jwt.sign({ data: data }, jwt_secret, {expiresIn: '1d'});
+    const refresh_token = jwt.sign({ data: {id: data.id}}, jwt_secret);
+
+    return {
+        access_token,
+        refresh_token
+    }
+}
+
 module.exports = {
     logIn,
     register,
     me,
     users,
+    refreshToken,
 };

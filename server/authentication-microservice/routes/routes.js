@@ -11,5 +11,6 @@ router.get('/users', authenticationMiddleware, adminMiddleware, controller.users
 
 router.post('/login', controller.logIn);
 router.post('/register', controller.register);
+router.post('/refresh-token', controller.refreshToken);
 
 module.exports = router;
