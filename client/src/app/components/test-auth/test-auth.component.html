@@ -1,0 +1,6 @@
+<p>test-auth works!</p>
+<button (click)="logIn()">Log in</button>
+<button (click)="getUserData()">getUserData</button>
+<button (click)="logOut()">Log Out</button>
+
+<div *ngIf="user">{{user.email}}</div>
