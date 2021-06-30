@@ -19,6 +19,10 @@ export class AuthService {
     return this.http.post<Token>(url, user);
   }
 
+  isLoggedIn(): boolean {
+    return this.localStorageService.hasItem('access_token') && this.localStorageService.hasItem('refresh_token');
+  }
+
   register(user: UserRegister): Observable<User> {
     const url = `http://localhost:8080/api/auth/register/`;
     return this.http.post<User>(url, user);

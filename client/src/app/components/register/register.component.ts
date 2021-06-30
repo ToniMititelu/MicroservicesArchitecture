@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {User, UserRegister} from '../../models/user.interface';
 import {MessageService} from 'primeng/api';
 import {AuthService} from '../../services/auth.service';
@@ -13,6 +13,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class RegisterComponent implements OnChanges {
 
   @Input() showRegister = false;
+  @Output() exitShowRegister: EventEmitter<boolean> = new EventEmitter<boolean>();
   user: UserRegister = {role: 'ROLE_USER'};
   requiredFields = ['username', 'email', 'password_1', 'password_2'];
 
@@ -58,6 +59,11 @@ export class RegisterComponent implements OnChanges {
 
     this.authService.register(this.user)
       .subscribe((response: User) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Congrats! You are now registered.',
+          detail: 'This page will reload. After that you can log in'
+        });
         window.location.reload();
       }, (error: HttpErrorResponse) => {
         console.error(error);
@@ -66,6 +72,11 @@ export class RegisterComponent implements OnChanges {
           summary: 'Something went wrong, try again'
         });
       });
+  }
+
+  close(event: Event): void {
+    this.showRegister = false;
+    this.exitShowRegister.emit(false);
   }
 
   validateEmail(email: string): boolean {

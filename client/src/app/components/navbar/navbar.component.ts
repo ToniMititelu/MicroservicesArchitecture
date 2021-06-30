@@ -19,18 +19,26 @@ export class NavbarComponent implements OnInit {
       routerLink: 'home'
     },
     {
-      label: 'Profile',
+      label: 'Account',
       icon: 'pi pi-fw pi-user',
+      items: [
+        {
+          label: 'My profile',
+          icon: 'pi pi-fw pi-user-edit',
+        },
+        {
+          label: 'My listings',
+          icon: 'pi pi-fw pi-tags',
+        },
+        {
+          label: 'My favorites',
+          icon: 'pi pi-fw pi-heart',
+        }
+      ]
     },
     {
-      label: 'Log In',
-      icon: 'pi pi-fw pi-sign-in',
-      command: (event: Event) => this.logIn(),
-    },
-    {
-      label: 'Register',
-      icon: 'pi pi-fw pi-user-plus',
-      command: (event: Event) => this.register(),
+      label: 'Messages',
+      icon: 'pi pi-fw pi-envelope'
     },
     {
       label: 'Log Out',
@@ -43,6 +51,20 @@ export class NavbarComponent implements OnInit {
               readonly localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.items = [
+        {
+          label: 'Log In',
+          icon: 'pi pi-fw pi-sign-in',
+          command: (event: Event) => this.logIn(),
+        },
+        {
+          label: 'Register',
+          icon: 'pi pi-fw pi-user-plus',
+          command: (event: Event) => this.register(),
+        },
+      ];
+    }
   }
 
   logIn(): void {

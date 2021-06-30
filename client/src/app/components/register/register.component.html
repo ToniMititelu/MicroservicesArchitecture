@@ -1,6 +1,5 @@
-<div>{{showRegister}}</div>
 <p-toast></p-toast>
-<p-dialog [(visible)]="showRegister" [style]="{width: '350px'}" header="Register"
+<p-dialog [(visible)]="showRegister" [style]="{width: '350px'}" header="Register" [closable]="false"
           styleClass="p-fluid">
   <ng-template pTemplate="content">
     <div class="p-field">
@@ -27,5 +26,7 @@
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-user-plus" (click)="register()"
               label="Register" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="close($event)"
+              label="Close" styleClass="p-button-text"></p-button>
   </ng-template>
 </p-dialog>
