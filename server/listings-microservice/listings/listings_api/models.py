@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from .validators import validate_price
 
+
 class Model(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -39,7 +40,7 @@ class GameListing(Model):
 
     @property
     def is_active(self):
-        "Check if listing is still active"
+        """Check if listing is still active"""
         return timezone.now() < self.expiration_date
 
 

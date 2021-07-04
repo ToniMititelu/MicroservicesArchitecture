@@ -12,6 +12,7 @@ django-environ = "*"
 gunicorn = "*"
 uvicorn = "*"
 pyjwt = "*"
+djangorestframework = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

@@ -1,36 +1,52 @@
-from listings_api.models import Platform, Currency, GameCategory, GameListing
+from api.models import Platform, Currency, GameCategory
+
 
 def create_platforms():
-    Platform.objects.all().delete()
-    Platform.objects.bulk_create([
-        Platform(short_name='ps', full_name='Sony PlayStation'),
-        Platform(short_name='xbox', full_name='Microsoft Xbox'),
-        Platform(short_name='pc', full_name='PC'),
-        Platform(short_name='switch', full_name='Nintendo Switch'),
-        Platform(short_name='other', full_name='Other'),
-    ])
+    new_platforms = [
+        Platform(code='ps', full_name='Sony PlayStation'),
+        Platform(code='xbox', full_name='Microsoft Xbox'),
+        Platform(code='pc', full_name='PC'),
+        Platform(code='switch', full_name='Nintendo Switch'),
+        Platform(code='other', full_name='Other'),
+    ]
+    existent_platforms = Platform.objects.all()
+    for platform in new_platforms:
+        if existent_platforms.filter(code=platform.code).exists():
+            continue
+        platform.save()
+
 
 def create_currencies():
-    Currency.objects.all().delete()
-    Currency.objects.bulk_create([
-        Currency(name='EURO', symbol='€'),
-        Currency(name='DOLLAR', symbol='$'),
-        Currency(name='RON', symbol='lei'),
-        Currency(name='GBP', symbol='£'),
-    ])
+    new_currencies = [
+        Currency(code='EUR', symbol='€'),
+        Currency(code='USD', symbol='$'),
+        Currency(code='RON', symbol='lei'),
+        Currency(code='GBP', symbol='£'),
+    ]
+    existent_currencies = Currency.objects.all()
+    for currency in new_currencies:
+        if existent_currencies.filter(code=currency.code).exists():
+            continue
+        currency.save()
+
 
 def create_categories():
-    GameCategory.objects.all().delete()
-    GameCategory.objects.bulk_create([
+    new_gc = [
         GameCategory(name='Action'),
         GameCategory(name='Adventure'),
         GameCategory(name='RTS'),
         GameCategory(name='RPG'),
         GameCategory(name='Simulator'),
-    ])
+    ]
+    existent_gc = GameCategory.objects.all()
+    for gc in new_gc:
+        if existent_gc.filter(name=gc.name).exists():
+            continue
+        gc.save()
+
 
 def run():
-    # create_platforms()
-    # create_currencies()
-    # create_categories()
+    create_platforms()
+    create_currencies()
+    create_categories()
     return
