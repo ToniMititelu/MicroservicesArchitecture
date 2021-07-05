@@ -24,6 +24,10 @@ import {DividerModule} from 'primeng/divider';
 import {MainComponent} from './components/main/main.component';
 import {CategoriesComponent} from './components/categories/categories.component';
 import {AvatarModule} from 'primeng/avatar';
+import {DataViewModule} from 'primeng/dataview';
+import { ListingsComponent } from './components/listings/listings.component';
+import {RatingModule} from 'primeng/rating';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,8 @@ import {AvatarModule} from 'primeng/avatar';
     LogInComponent,
     RegisterComponent,
     MainComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    ListingsComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +56,9 @@ import {AvatarModule} from 'primeng/avatar';
     PasswordModule,
     DividerModule,
     AvatarModule,
+    DataViewModule,
+    RatingModule,
+    DropdownModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
