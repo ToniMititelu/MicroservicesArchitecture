@@ -21,6 +21,7 @@
     "@angular/router": "~11.2.14",
     "http-status-codes": "^2.1.4",
     "moment": "^2.29.1",
+    "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.3.1",
     "rxjs": "~6.6.0",

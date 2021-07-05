@@ -21,6 +21,9 @@ import {FormsModule} from '@angular/forms';
 import {RippleModule} from 'primeng/ripple';
 import {PasswordModule} from 'primeng/password';
 import {DividerModule} from 'primeng/divider';
+import {MainComponent} from './components/main/main.component';
+import {CategoriesComponent} from './components/categories/categories.component';
+import {AvatarModule} from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import {DividerModule} from 'primeng/divider';
     TestAuthComponent,
     NavbarComponent,
     LogInComponent,
-    RegisterComponent
+    RegisterComponent,
+    MainComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,8 @@ import {DividerModule} from 'primeng/divider';
     ToastModule,
     RippleModule,
     PasswordModule,
-    DividerModule
+    DividerModule,
+    AvatarModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
