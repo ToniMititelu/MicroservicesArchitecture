@@ -8,13 +8,16 @@ from .favorites.api import router as favorites_router
 
 api = NinjaAPI(auth=GlobalAuth())
 
+
 @api.get("/test", auth=None)
 def test(request):
     return {'result': 'No auth'}
 
+
 @api.get("/test2")
 def test2(request):
     return request.auth
+
 
 api.add_router("/gamecategories/", categories_router)
 api.add_router("/platforms/", platforms_router)
