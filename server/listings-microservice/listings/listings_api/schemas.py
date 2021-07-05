@@ -20,24 +20,24 @@ class GameCategoryOut(Schema):
 
 
 class PlatformIn(Schema):
-    short_name: str
+    code: str
     full_name: str
 
 
 class PlatformOut(Schema):
     id: int
-    short_name: str
+    code: str
     full_name: str
 
 
 class CurrencyIn(Schema):
-    name: str
+    code: str
     symbol: str
 
 
 class CurrencyOut(Schema):
     id: int
-    name: str
+    code: str
     symbol: str
 
 
@@ -49,8 +49,8 @@ class GameListingIn(Schema):
     is_sealed: bool = False
     is_digital: bool = False
     category_id: int
-    currency_id: int
-    platform_id: int
+    currency_code: str
+    platform_code: str
 
 
 class GameListingOut(Schema):

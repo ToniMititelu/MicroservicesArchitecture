@@ -1,4 +1,4 @@
-from api.models import Platform, Currency, GameCategory
+from listings_api.models import Platform, Currency, GameCategory
 
 
 def create_platforms():

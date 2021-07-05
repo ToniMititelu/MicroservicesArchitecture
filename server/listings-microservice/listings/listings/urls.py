@@ -29,6 +29,5 @@ router.register('favorites', views.UserFavouriteViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/', include(router.urls)),
-    path('v2/', api.urls),
+    path('v1/', api.urls),
 ]

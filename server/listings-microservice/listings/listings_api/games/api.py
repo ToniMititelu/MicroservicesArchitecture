@@ -8,6 +8,7 @@ from ..models import GameListing, GameCategory, Currency, Platform
 
 router = Router()
 
+
 @router.post("/", response={201: GameListingOut, 400: Error})
 def create_game_listing(request, payload: GameListingIn):
     game_listing = payload.dict()
@@ -17,16 +18,16 @@ def create_game_listing(request, payload: GameListingIn):
         game_category = GameCategory.objects.get(id=category_id)
     except GameCategory.DoesNotExist:
         return 400, {"message": "Game category not found"}
-    
-    currency_id = game_listing.pop('currency_id', None)
+
+    platform_code = payload.pop('currency_id', None)
     try:
-        currency = Currency.objects.get(id=currency_id)
+        currency = Currency.objects.get(code=platform_code)
     except Currency.DoesNotExist:
         return 400, {"message": "Currency not found"}
-    
-    platform_id = game_listing.pop('platform_id', None)
+
+    platform_code = payload.pop('platform_id', None)
     try:
-        platform = Platform.objects.get(id=platform_id)
+        platform = Platform.objects.get(code=platform_code)
     except Platform.DoesNotExist:
         return 400, {"message": "Platform not found"}
 
@@ -37,6 +38,7 @@ def create_game_listing(request, payload: GameListingIn):
     game_listing['expiration_date'] = get_listing_expiration_date()
     game_listing = GameListing.objects.create(**game_listing)
     return 201, game_listing
+
 
 @router.get("/", response=List[GameListingOut], auth=None)
 def get_game_listings(request, user_id: str = None, status: str = None):
@@ -53,38 +55,41 @@ def get_game_listings(request, user_id: str = None, status: str = None):
         game_listings = game_listings.filter(**filters)
     return game_listings
 
+
 @router.get("/mine/", response=List[GameListingOut])
 def get_my_game_listings(request):
     game_listings = GameListing.objects.filter(user_id=request.auth['id'])
     return game_listings
+
 
 @router.get("/{game_listing_id}/", response=GameListingOut, auth=None)
 def get_game_listing(request, game_listing_id: int):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
     return game_listing
 
+
 @router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error})
 def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
     if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
         return 403, {"message": "Only admins and owners can edit listings"}
-    
+
     payload = payload.dict()
     category_id = payload.pop('category_id', None)
     try:
         game_category = GameCategory.objects.get(id=category_id)
     except GameCategory.DoesNotExist:
         return 400, {"message": "Game category not found"}
-    
-    currency_id = payload.pop('currency_id', None)
+
+    platform_code = payload.pop('currency_id', None)
     try:
-        currency = Currency.objects.get(id=currency_id)
+        currency = Currency.objects.get(code=platform_code)
     except Currency.DoesNotExist:
         return 400, {"message": "Currency not found"}
-    
-    platform_id = payload.pop('platform_id', None)
+
+    platform_code = payload.pop('platform_id', None)
     try:
-        platform = Platform.objects.get(id=platform_id)
+        platform = Platform.objects.get(code=platform_code)
     except Platform.DoesNotExist:
         return 400, {"message": "Platform not found"}
 
@@ -96,10 +101,11 @@ def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     game_listing.save()
     return 200, game_listing
 
+
 @router.delete("/{game_listing_id}/", response={200: Success, 403: Error})
 def delete_game_listing(request, game_listing_id: int):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
     if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
         return 403, {"message": "Only admins and owners can delete a game listing"}
     game_listing.delete()
-    return 200,{'message': f'Game category {game_listing_id} deleted successfully'}
+    return 200, {'message': f'Game category {game_listing_id} deleted successfully'}

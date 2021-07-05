@@ -16,12 +16,12 @@ class GameCategory(Model):
 
 
 class Currency(Model):
-    name = models.CharField(max_length=8)
+    code = models.CharField(max_length=8)
     symbol = models.CharField(max_length=4)
 
 
 class Platform(Model):
-    short_name = models.CharField(max_length=8)
+    code = models.CharField(max_length=8)
     full_name = models.CharField(max_length=16)
 
 

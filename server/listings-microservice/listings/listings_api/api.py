@@ -19,8 +19,8 @@ def test2(request):
     return request.auth
 
 
-api.add_router("/gamecategories/", categories_router)
+api.add_router("/categories/", categories_router)
 api.add_router("/platforms/", platforms_router)
-api.add_router("/games/", games_router)
+api.add_router("/listings/", games_router)
 api.add_router("/currencies/", currencies_router)
 api.add_router("/favorites/", favorites_router)
