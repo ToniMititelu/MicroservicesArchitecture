@@ -1,11 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TestAuthComponent } from './components/test-auth/test-auth.component';
+import {CreateUpdateListingsComponent} from './components/create-update-listings/create-update-listings.component';
+import {ListingsComponent} from './components/listings/listings.component';
+import {MainComponent} from './components/main/main.component';
 
 const routes: Routes = [
+  { path: '',   redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
-    component: TestAuthComponent
+    component: MainComponent
+  },
+  {
+    path: 'listings',
+    component: ListingsComponent,
+  },
+  {
+    path: 'listings/create',
+    component: CreateUpdateListingsComponent
+  },
+  {
+    path: '**',
+    component: MainComponent
   }
 ];
 

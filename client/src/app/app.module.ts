@@ -28,6 +28,11 @@ import {DataViewModule} from 'primeng/dataview';
 import { ListingsComponent } from './components/listings/listings.component';
 import {RatingModule} from 'primeng/rating';
 import {DropdownModule} from 'primeng/dropdown';
+import { CreateUpdateListingsComponent } from './components/create-update-listings/create-update-listings.component';
+import {CardModule} from 'primeng/card';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {CheckboxModule} from 'primeng/checkbox';
+import {FileUploadModule} from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ import {DropdownModule} from 'primeng/dropdown';
     RegisterComponent,
     MainComponent,
     CategoriesComponent,
-    ListingsComponent
+    ListingsComponent,
+    CreateUpdateListingsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +65,13 @@ import {DropdownModule} from 'primeng/dropdown';
     DataViewModule,
     RatingModule,
     DropdownModule,
+    CardModule,
+    InputTextareaModule,
+    CheckboxModule,
+    FileUploadModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    // {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

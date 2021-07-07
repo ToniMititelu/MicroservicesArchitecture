@@ -1,0 +1,105 @@
+<p-card>
+  <div style="text-align: center;">
+    <div class="p-grid p-flex-column">
+      <p class="mono-font">Add new listing</p>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+            <input type="text" id="name" pInputText>
+            <label for="name">Name</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <textarea id="description" [rows]="3" pInputTextarea></textarea>
+          <label for="description">Description</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <p-dropdown inputId="category" [autoDisplayFirst]="false" [options]="[]"
+                      optionLabel="name"></p-dropdown>
+          <label for="category">Category</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <p-dropdown inputId="category" [autoDisplayFirst]="false"
+                      optionLabel="name" [options]="platformsData"></p-dropdown>
+          <label for="platform">Platform</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+            <input type="text" id="price" pInputText>
+            <label for="price">Price</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <p-dropdown inputId="currency" [autoDisplayFirst]="false" [options]="[]"
+                      optionLabel="name"></p-dropdown>
+          <label for="currency">Currency</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-8 p-offset-2">
+        <div>
+          Photos
+        </div>
+        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                      accept="image/*" [multiple]="multiple" [maxFileSize]="maxFileSize">
+          <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+              <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <div class="p-grid">
+          <div class="p-col">
+            <div class="p-field-checkbox">
+              <p-checkbox [binary]="true" inputId="negotiable"></p-checkbox>
+              <label for="negotiable">Price negotiable</label>
+            </div>
+          </div>
+          <div class="p-col">
+            <div class="p-field-checkbox">
+              <p-checkbox [binary]="true" inputId="digital"></p-checkbox>
+              <label for="digital">Digital content</label>
+            </div>
+          </div>
+          <div class="p-col">
+            <div class="p-field-checkbox">
+              <p-checkbox [binary]="true" inputId="sealed"></p-checkbox>
+              <label for="sealed">Product sealed</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <div class="p-grid">
+          <div class="p-col">
+            <button pButton pRipple type="button" label="Submit" class="p-button-success"
+                    icon="pi pi-check" iconPos="right"></button>
+          </div>
+          <div class="p-col">
+            <button pButton pRipple type="button" label="Delete" class="p-button-danger"
+                    icon="pi pi-trash" iconPos="right"></button>
+          </div>
+          <div class="p-col">
+            <button pButton pRipple type="button" label="Cancel" class="p-button-warning"
+                    icon="pi pi-times" iconPos="right"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-card>

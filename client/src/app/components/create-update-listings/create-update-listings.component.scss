@@ -1,0 +1,16 @@
+.custom-width {
+  width: 25%;
+}
+
+::ng-deep .p-dropdown {
+  width: 100%;
+  text-align: left;
+}
+
+::ng-deep .p-divider {
+  visibility: hidden;
+}
+
+::ng-deep .p-inputtext {
+  width: 100%;
+}

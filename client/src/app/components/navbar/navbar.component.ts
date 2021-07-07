@@ -23,15 +23,26 @@ export class NavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-user',
       items: [
         {
-          label: 'My profile',
+          label: 'Profile',
           icon: 'pi pi-fw pi-user-edit',
         },
         {
-          label: 'My listings',
+          label: 'Listings',
           icon: 'pi pi-fw pi-tags',
+          items: [
+            {
+              label: 'My listings',
+              icon: 'pi pi-fw pi-tags',
+            },
+            {
+              label: 'Create listing',
+              icon: 'pi pi-fw pi-plus',
+              routerLink: ['listings/create'],
+            },
+          ],
         },
         {
-          label: 'My favorites',
+          label: 'Favorites',
           icon: 'pi pi-fw pi-heart',
         }
       ]
