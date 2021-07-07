@@ -13,6 +13,7 @@ gunicorn = "*"
 uvicorn = "*"
 pyjwt = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
