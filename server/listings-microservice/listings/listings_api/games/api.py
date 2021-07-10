@@ -9,7 +9,7 @@ from ..models import GameListing, GameCategory, Currency, Platform
 router = Router()
 
 
-@router.post("/", response={201: GameListingOut, 400: Error})
+@router.post("/", response={201: GameListingOut, 400: Error}, auth=None)
 def create_game_listing(request, payload: GameListingIn):
     game_listing = payload.dict()
 
@@ -19,19 +19,19 @@ def create_game_listing(request, payload: GameListingIn):
     except GameCategory.DoesNotExist:
         return 400, {"message": "Game category not found"}
 
-    platform_code = payload.pop('currency_id', None)
+    currency_code = game_listing.pop('currency_code', None)
     try:
-        currency = Currency.objects.get(code=platform_code)
+        currency = Currency.objects.get(code=currency_code)
     except Currency.DoesNotExist:
         return 400, {"message": "Currency not found"}
 
-    platform_code = payload.pop('platform_id', None)
+    platform_code = game_listing.pop('platform_code', None)
     try:
         platform = Platform.objects.get(code=platform_code)
     except Platform.DoesNotExist:
         return 400, {"message": "Platform not found"}
 
-    game_listing['user_id'] = request.auth['id']
+    game_listing['user_id'] = 'test'
     game_listing['category'] = game_category
     game_listing['currency'] = currency
     game_listing['platform'] = platform
@@ -68,11 +68,11 @@ def get_game_listing(request, game_listing_id: int):
     return game_listing
 
 
-@router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error})
+@router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error}, auth=None)
 def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
-    if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
-        return 403, {"message": "Only admins and owners can edit listings"}
+    # if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
+    #     return 403, {"message": "Only admins and owners can edit listings"}
 
     payload = payload.dict()
     category_id = payload.pop('category_id', None)
@@ -81,13 +81,13 @@ def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     except GameCategory.DoesNotExist:
         return 400, {"message": "Game category not found"}
 
-    platform_code = payload.pop('currency_id', None)
+    currency_code = payload.pop('currency_code', None)
     try:
-        currency = Currency.objects.get(code=platform_code)
+        currency = Currency.objects.get(code=currency_code)
     except Currency.DoesNotExist:
         return 400, {"message": "Currency not found"}
 
-    platform_code = payload.pop('platform_id', None)
+    platform_code = payload.pop('platform_code', None)
     try:
         platform = Platform.objects.get(code=platform_code)
     except Platform.DoesNotExist:
@@ -102,10 +102,10 @@ def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     return 200, game_listing
 
 
-@router.delete("/{game_listing_id}/", response={200: Success, 403: Error})
+@router.delete("/{game_listing_id}/", response={200: Success, 403: Error}, auth=None)
 def delete_game_listing(request, game_listing_id: int):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
-    if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
-        return 403, {"message": "Only admins and owners can delete a game listing"}
+    # if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
+    #     return 403, {"message": "Only admins and owners can delete a game listing"}
     game_listing.delete()
     return 200, {'message': f'Game category {game_listing_id} deleted successfully'}
