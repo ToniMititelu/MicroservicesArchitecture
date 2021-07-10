@@ -19,6 +19,10 @@ const routes: Routes = [
     component: CreateUpdateListingsComponent
   },
   {
+    path: 'listings/:id/update',
+    component: CreateUpdateListingsComponent
+  },
+  {
     path: '**',
     component: MainComponent
   }
