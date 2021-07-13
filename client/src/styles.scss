@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: aliceblue;
+}
+
 .mono-font {
   font-family: "Lucida Console", "Courier New", monospace;
   color: aliceblue;
   font-size: 2em;
+}
+
+a {
+  color: white;
+  text-decoration: none; /* no underline */
 }

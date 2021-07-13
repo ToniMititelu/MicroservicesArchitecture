@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {CreateUpdateListingsComponent} from './components/create-update-listings/create-update-listings.component';
 import {ListingsComponent} from './components/listings/listings.component';
 import {MainComponent} from './components/main/main.component';
+import {ListingDetailsComponent} from './components/listing-details/listing-details.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'listings/:id/update',
     component: CreateUpdateListingsComponent
+  },
+  {
+    path: 'listings/:id/details',
+    component: ListingDetailsComponent
   },
   {
     path: '**',
