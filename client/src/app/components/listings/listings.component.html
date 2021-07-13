@@ -16,7 +16,20 @@
           </div>
           <div class="product-list-action">
             <span class="product-price">${{listing.price}}</span>
-            <p-button icon="pi pi-money-bill" label="Order"></p-button>
+            <div class="car-buttons p-mt-5">
+              <a [routerLink]="['/listings', listing.id, 'update']">
+                <p-button type="button" styleClass="p-button p-button-rounded p-mr-2"
+                          icon="pi pi-info-circle"></p-button>
+              </a>
+              <a [routerLink]="['/listings', listing.id, 'update']">
+                <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2"
+                          icon="pi pi-heart"></p-button>
+              </a>
+              <a [routerLink]="['/listings', listing.id, 'update']">
+                <p-button type="button" styleClass="p-button p-button-rounded p-mr-2"
+                          icon="pi pi-shopping-cart"></p-button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +54,11 @@
           </div>
           <div class="product-grid-item-bottom">
             <span class="product-price">{{listing.currency.symbol + listing.price}}</span>
-            <p-button icon="pi pi-money-bill" label="Order"></p-button>
+            <div class="car-buttons p-mt-5">
+              <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"></p-button>
+              <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>
+              <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
+            </div>
           </div>
         </div>
       </div>

@@ -21,17 +21,6 @@ export class ListingsComponent implements OnInit {
 
   listings: ListingOut[];
 
-  products: Product[] = [
-    {
-      name: 'test',
-      description: 'test',
-      rating: 3,
-      category: 'test',
-      price: 45,
-      inventoryStatus: 'IN STOCK'
-    }
-  ];
-
   sortOptions: SelectItem[];
 
   sortOrder: number;

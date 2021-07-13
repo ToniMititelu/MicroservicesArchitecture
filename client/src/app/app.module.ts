@@ -25,10 +25,10 @@ import {MainComponent} from './components/main/main.component';
 import {CategoriesComponent} from './components/categories/categories.component';
 import {AvatarModule} from 'primeng/avatar';
 import {DataViewModule} from 'primeng/dataview';
-import { ListingsComponent } from './components/listings/listings.component';
+import {ListingsComponent} from './components/listings/listings.component';
 import {RatingModule} from 'primeng/rating';
 import {DropdownModule} from 'primeng/dropdown';
-import { CreateUpdateListingsComponent } from './components/create-update-listings/create-update-listings.component';
+import {CreateUpdateListingsComponent} from './components/create-update-listings/create-update-listings.component';
 import {CardModule} from 'primeng/card';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {CheckboxModule} from 'primeng/checkbox';
@@ -38,6 +38,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageService} from 'primeng/api';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {RouterLink} from '@angular/router';
+import {CarouselComponent} from './components/carousel/carousel.component';
+import {CarouselModule} from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import {RouterLink} from '@angular/router';
     MainComponent,
     CategoriesComponent,
     ListingsComponent,
-    CreateUpdateListingsComponent
+    CreateUpdateListingsComponent,
+    CarouselComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +81,7 @@ import {RouterLink} from '@angular/router';
     MessageModule,
     MessagesModule,
     InputNumberModule,
+    CarouselModule,
   ],
   providers: [
     RouterLink,
