@@ -11,9 +11,10 @@ django-extensions = "*"
 django-environ = "*"
 gunicorn = "*"
 uvicorn = "*"
-pyjwt = "*"
+PyJWT = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+redis = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
