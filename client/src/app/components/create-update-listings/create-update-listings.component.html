@@ -3,7 +3,7 @@
 <p-card>
   <div style="text-align: center;">
     <div class="p-grid p-flex-column">
-      <p class="mono-font">Add new listing</p>
+      <p class="mono-font">{{!listingId ? 'Add new listing' : 'Edit listing'}}</p>
       <div class="p-col-6 p-offset-3">
         <span class="p-float-label">
           <input type="text" id="name" name="name" aria-describedby="name-help"
@@ -67,7 +67,7 @@
       </div>
       <p-divider></p-divider>
       <div class="p-col-6 p-offset-3">
-        <div class="p-grid">
+        <div class="p-grid p-text-center">
           <div class="p-col">
             <div class="p-field-checkbox">
               <p-checkbox [binary]="true" inputId="negotiable" [(ngModel)]="newListing.is_negotiable"></p-checkbox>
@@ -90,16 +90,16 @@
       </div>
       <p-divider></p-divider>
       <div class="p-col-6 p-offset-3">
-        <div class="p-grid">
-          <div class="p-col">
+        <div class="p-grid p-jc-center">
+          <div class="p-col-2">
             <button pButton pRipple type="button" label="Submit" class="p-button-success"
                     icon="pi pi-check" iconPos="right" (click)="submit($event)"></button>
           </div>
-          <div class="p-col" [ngStyle]="{'visibility': !listingId ? 'hidden' : 'visible'}">
+          <div class="p-col-2" [ngStyle]="{'display': !listingId ? 'none' : 'block'}">
             <button pButton pRipple type="button" label="Delete" class="p-button-danger"
                     icon="pi pi-trash" iconPos="right" (click)="delete($event)"></button>
           </div>
-          <div class="p-col">
+          <div class="p-col-2">
             <button pButton pRipple type="button" label="Cancel" class="p-button-warning"
                     icon="pi pi-times" iconPos="right" (click)="cancel($event)"></button>
           </div>

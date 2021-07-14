@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.main-container {
+  background-image: url("assets/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-y: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 * {
   font-family: "Lucida Console", "Courier New", monospace;
   color: aliceblue;
