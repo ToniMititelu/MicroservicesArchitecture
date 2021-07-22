@@ -21,10 +21,12 @@ const UserSchema = new Schema({
         required: true,
         default: 'ADMIN'
     },
-    date: {
-        type: Date,
-        default: Date.now
+    phone: {
+        type: String,
+        maxLength: 12
     }
+}, {
+    timestamps: true
 });
 
 moongose.model('users', UserSchema);

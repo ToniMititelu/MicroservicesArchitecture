@@ -9,6 +9,12 @@ const ShipmentSchema = new Schema({
     addressId: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['IN PROCESS', 'SHIPPED'],
+        default: 'IN PROCESS'
     }
 }, {
     timestamps: true

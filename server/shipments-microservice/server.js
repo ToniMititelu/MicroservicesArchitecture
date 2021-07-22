@@ -18,8 +18,6 @@ mongoose.connect(mongoUri, {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.get('/test', (req, res) => {
-    res.json({'message': 'ok hot reload shipments'})
-});
+app.use('/', require('./routes/routes'));
 
 app.listen(PORT, () => console.log(`All set up. Listening on ${PORT}!`))
