@@ -15,7 +15,7 @@ const adminOrOwnerMiddleware = async (req, res, next) => {
 
     const user = res.locals.decoded;
 
-    if (user.role !== 'Admin' && user.id !== order.userId) {
+    if (user.role !== 'ADMIN' && user.id !== order.userId) {
         return res.status(StatusCodes.FORBIDDEN).json({'message': 'This is available only for admins or owners of this order'});
     }
 

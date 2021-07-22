@@ -24,7 +24,7 @@ def get_listing_expiration_date() -> datetime:
 
 
 def is_admin(payload):
-    return payload['role'] == 'Admin'
+    return payload['role'] == 'ADMIN'
 
 
 def is_owner(payload, resource):
