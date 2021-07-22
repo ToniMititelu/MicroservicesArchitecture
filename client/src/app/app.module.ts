@@ -42,6 +42,7 @@ import {CarouselComponent} from './components/carousel/carousel.component';
 import {CarouselModule} from 'primeng/carousel';
 import { ListingDetailsComponent } from './components/listing-details/listing-details.component';
 import {GMapModule} from 'primeng/gmap';
+import { MakeOrderComponent } from './components/make-order/make-order.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {GMapModule} from 'primeng/gmap';
     CreateUpdateListingsComponent,
     CarouselComponent,
     ListingDetailsComponent,
+    MakeOrderComponent,
   ],
     imports: [
         BrowserModule,
