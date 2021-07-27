@@ -40,9 +40,14 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {RouterLink} from '@angular/router';
 import {CarouselComponent} from './components/carousel/carousel.component';
 import {CarouselModule} from 'primeng/carousel';
-import { ListingDetailsComponent } from './components/listing-details/listing-details.component';
+import {ListingDetailsComponent} from './components/listing-details/listing-details.component';
 import {GMapModule} from 'primeng/gmap';
-import { MakeOrderComponent } from './components/make-order/make-order.component';
+import {MakeOrderComponent} from './components/make-order/make-order.component';
+import {DocumentComponent} from './components/document/document.component';
+import {DocumentListComponent} from './components/document-list/document-list.component';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+
+const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
 @NgModule({
   declarations: [
@@ -58,37 +63,40 @@ import { MakeOrderComponent } from './components/make-order/make-order.component
     CarouselComponent,
     ListingDetailsComponent,
     MakeOrderComponent,
+    DocumentComponent,
+    DocumentListComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        MenubarModule,
-        InputTextModule,
-        TabViewModule,
-        ButtonModule,
-        DialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ToastModule,
-        RippleModule,
-        PasswordModule,
-        DividerModule,
-        AvatarModule,
-        DataViewModule,
-        RatingModule,
-        DropdownModule,
-        CardModule,
-        InputTextareaModule,
-        CheckboxModule,
-        FileUploadModule,
-        MessageModule,
-        MessagesModule,
-        InputNumberModule,
-        CarouselModule,
-        GMapModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MenubarModule,
+    InputTextModule,
+    TabViewModule,
+    ButtonModule,
+    DialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ToastModule,
+    RippleModule,
+    PasswordModule,
+    DividerModule,
+    AvatarModule,
+    DataViewModule,
+    RatingModule,
+    DropdownModule,
+    CardModule,
+    InputTextareaModule,
+    CheckboxModule,
+    FileUploadModule,
+    MessageModule,
+    MessagesModule,
+    InputNumberModule,
+    CarouselModule,
+    GMapModule,
+    SocketIoModule.forRoot(config),
+  ],
   providers: [
     RouterLink,
     // {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
