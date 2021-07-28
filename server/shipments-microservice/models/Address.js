@@ -28,7 +28,8 @@ const AddressSchema = new Schema({
     },
     isDefault: {
         type: Boolean,
-        required: true
+        required: true,
+        default: true
     }
 }, {
     timestamps: true

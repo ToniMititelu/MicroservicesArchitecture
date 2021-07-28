@@ -21,7 +21,13 @@ const OrderSchema = new Schema({
     shippingAddressId: {
         type: String,
         required: true
-    } 
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['WAITING CONFIRMATION', 'ACCEPTED', 'WAITING FOR SHIPPMENT', 'SHIPPING', 'SHIPPED'],
+        default: 'WAITING CONFIRMATION'
+    }
 }, {
     timestamps: true
 });

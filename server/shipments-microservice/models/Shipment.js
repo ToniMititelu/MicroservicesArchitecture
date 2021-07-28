@@ -10,11 +10,9 @@ const ShipmentSchema = new Schema({
         type: String,
         required: true
     },
-    status: {
-        type: String,
-        required: true,
-        enum: ['IN PROCESS', 'SHIPPED'],
-        default: 'IN PROCESS'
+    shipmentDay: {
+        type: Date,
+        required: false,
     }
 }, {
     timestamps: true

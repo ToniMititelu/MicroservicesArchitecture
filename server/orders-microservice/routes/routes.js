@@ -11,6 +11,7 @@ router.get('/', authenticationMiddleware, adminMiddleware, controller.getAllOrde
 router.get('/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.getOrder);
 
 router.post('/', authenticationMiddleware, controller.createOrder);
+router.post('/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.confirmOrder);
 router.delete('/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.deleteOrder);
 
 module.exports = router;

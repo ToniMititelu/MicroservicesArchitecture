@@ -40,8 +40,23 @@ const getOrder = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
     const order = res.locals.decoded.order;
+    if (['SHIPPING', 'SHIPPED'].includes(order.status)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'You can not delete an order that was already sent to the courier or already shipped'});
+    }
     order.remove();
     return res.status(StatusCodes.OK).json({'message': 'ok'});
+}
+
+const confirmOrder = async (req, res) => {
+    const order = res.locals.decoded.order;
+    order.status = 'ACCEPTED';
+    try {
+        order.save();
+        return res.status(StatusCodes.OK).json({'message': 'Order confirmed by owner. Sent for shipment.'});
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, please try again'});
+    }
 }
 
 module.exports = {
@@ -49,4 +64,5 @@ module.exports = {
     getAllOrders,
     getOrder,
     deleteOrder,
+    confirmOrder,
 };
