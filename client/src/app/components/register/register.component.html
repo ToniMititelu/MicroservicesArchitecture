@@ -1,32 +1,57 @@
 <p-toast></p-toast>
-<p-dialog [(visible)]="showRegister" [style]="{width: '350px'}" header="Register" [closable]="false"
-          styleClass="p-fluid">
-  <ng-template pTemplate="content">
-    <div class="p-field">
-      <label for="username">Username</label>
-      <input type="text" pInputText id="username" [(ngModel)]="user.username" required/>
-    </div>
-    <p-divider></p-divider>
-    <div class="p-field">
-      <label for="email">Email</label>
-      <input type="email" pInputText id="email" [(ngModel)]="user.email" [email]="true" required/>
-    </div>
-    <p-divider></p-divider>
-    <div class="p-field">
-      <label>Password</label>
-      <p-password [(ngModel)]="user.password_1" [toggleMask]="true"></p-password>
-    </div>
-    <p-divider></p-divider>
-    <div class="p-field">
-      <label>Password</label>
-      <p-password [(ngModel)]="user.password_2" [toggleMask]="true"></p-password>
-    </div>
-  </ng-template>
 
-  <ng-template pTemplate="footer">
-    <p-button icon="pi pi-user-plus" (click)="register()"
-              label="Register" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times" (click)="close($event)"
-              label="Close" styleClass="p-button-text"></p-button>
-  </ng-template>
-</p-dialog>
+<div class="p-grid p-flex-column">
+  <div class="p-col-6 p-offset-3">
+    <p-card>
+      <div class="p-grid p-flex-column">
+        <div class="p-col">
+          <p class="mono-font">Create new account</p>
+        </div>
+        <div class="p-col">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" aria-describedby="username-help"
+                 pInputText [(ngModel)]="user.username">
+        </div>
+        <div class="p-col">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" aria-describedby="email-help"
+                 pInputText [(ngModel)]="user.email">
+        </div>
+        <div class="p-col">
+          <label for="password">Password</label>
+          <p-password id="password" [(ngModel)]="user.password_1" [toggleMask]="true">
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="p-mt-2">Suggestions</p>
+              <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+        <div class="p-col">
+          <label for="password2">Confirm Password</label>
+          <p-password id="password2" [(ngModel)]="user.password_2" [toggleMask]="true">
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="p-mt-2">Suggestions</p>
+              <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+        <div class="p-col p-text-right">
+          <button pButton pRipple type="button" label="Register" class="p-button-info"
+                  icon="pi pi-user-plus" iconPos="right" (click)="register()"></button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

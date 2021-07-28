@@ -1,1 +1,26 @@
-<p>log-in works!</p>
+<p-toast></p-toast>
+
+<div class="p-grid p-flex-column">
+  <div class="p-col-6 p-offset-3">
+    <p-card>
+      <div class="p-grid p-flex-column">
+        <div class="p-col">
+          <p class="mono-font">Log in to existent account</p>
+        </div>
+        <div class="p-col">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" aria-describedby="email-help"
+                 pInputText [(ngModel)]="user.email">
+        </div>
+        <div class="p-col">
+          <label for="password">Password</label>
+          <p-password id="password" [(ngModel)]="user.password" [toggleMask]="true" [feedback]="false"></p-password>
+        </div>
+        <div class="p-col p-text-right">
+          <button pButton pRipple type="button" label="Log In" class="p-button-info"
+                  icon="pi pi-user" iconPos="right" (click)="logIn()"></button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

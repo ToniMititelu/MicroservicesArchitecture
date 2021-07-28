@@ -11,15 +11,15 @@ const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {
     path: 'home',
-    component: MainComponent
+    component: MainComponent,
   },
   {
     path: 'log-in',
-    component: LogInComponent
+    component: LogInComponent,
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'listings',
@@ -27,19 +27,19 @@ const routes: Routes = [
   },
   {
     path: 'listings/create',
-    component: CreateUpdateListingsComponent
+    component: CreateUpdateListingsComponent,
   },
   {
     path: 'listings/:id/update',
-    component: CreateUpdateListingsComponent
+    component: CreateUpdateListingsComponent,
   },
   {
     path: 'listings/:id/details',
-    component: ListingDetailsComponent
+    component: ListingDetailsComponent,
   },
   {
     path: '**',
-    component: MainComponent
+    component: MainComponent,
   }
 ];
 

@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component} from '@angular/core';
 import {User, UserRegister} from '../../models/user.interface';
 import {MessageService} from 'primeng/api';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -10,19 +11,13 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./register.component.scss'],
   providers: [MessageService]
 })
-export class RegisterComponent implements OnChanges {
-
-  @Input() showRegister = false;
-  @Output() exitShowRegister: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class RegisterComponent {
   user: UserRegister = {role: 'ROLE_USER'};
   requiredFields = ['username', 'email', 'password_1', 'password_2'];
 
   constructor(readonly messageService: MessageService,
-              readonly authService: AuthService) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+              readonly authService: AuthService,
+              readonly router: Router) {
   }
 
   register(): void {
@@ -62,9 +57,11 @@ export class RegisterComponent implements OnChanges {
         this.messageService.add({
           severity: 'success',
           summary: 'Congrats! You are now registered.',
-          detail: 'This page will reload. After that you can log in'
+          detail: 'After a few seconds you\'ll be redirected to log in page'
         });
-        window.location.reload();
+        setTimeout(() => {
+          this.router.navigate(['log-in']);
+        }, 3000);
       }, (error: HttpErrorResponse) => {
         console.error(error);
         this.messageService.add({
@@ -72,11 +69,6 @@ export class RegisterComponent implements OnChanges {
           summary: 'Something went wrong, try again'
         });
       });
-  }
-
-  close(event: Event): void {
-    this.showRegister = false;
-    this.exitShowRegister.emit(false);
   }
 
   validateEmail(email: string): boolean {
