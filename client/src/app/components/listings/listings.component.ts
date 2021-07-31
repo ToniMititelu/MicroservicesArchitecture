@@ -1,16 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ListingOut} from '../../models/listing.interface';
-import {ListingsService} from '../../services/listings.service';
-import {SelectItem} from 'primeng/api';
-
-interface Product {
-  name: string;
-  description: string;
-  rating: number;
-  category: string;
-  price: number;
-  inventoryStatus: string;
-}
+import { Component, Input, OnInit } from '@angular/core';
+import { ListingOut } from '../../models/listing.interface';
+import { ListingsService } from '../../services/listings.service';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-listings',
@@ -18,6 +9,8 @@ interface Product {
   styleUrls: ['./listings.component.scss']
 })
 export class ListingsComponent implements OnInit {
+
+  @Input() mine = false;
 
   listings: ListingOut[];
 
@@ -31,7 +24,7 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listingsService.getListings()
+    this.listingsService.getListings(this.mine)
       .subscribe(
         (response) => {
           this.listings = [];

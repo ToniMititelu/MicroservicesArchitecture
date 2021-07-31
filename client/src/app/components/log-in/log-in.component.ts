@@ -42,7 +42,7 @@ export class LogInComponent {
       .subscribe((response: Token) => {
         this.localStorageService.setItem('access_token', response.access_token);
         this.localStorageService.setItem('refresh_token', response.refresh_token);
-        this.router.navigate(['home']);
+        window.location.href = '/home';
       }, ((error: HttpErrorResponse) => {
         console.error(error);
         this.messageService.add({

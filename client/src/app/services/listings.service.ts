@@ -30,8 +30,8 @@ export class ListingsService {
     return this.http.get<Category[]>(url);
   }
 
-  getListings(): Observable<ListingOut[]> {
-    const url = `${this.baseUrl}/listings/`;
+  getListings(mine?: boolean): Observable<ListingOut[]> {
+    const url = `${this.baseUrl}/listings/${mine ? 'mine/' : ''}`;
     return this.http.get<ListingOut[]>(url);
   }
 

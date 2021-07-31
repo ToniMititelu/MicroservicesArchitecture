@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -59,7 +60,8 @@ export class NavbarComponent implements OnInit {
   ];
 
   constructor(readonly authService: AuthService,
-              readonly localStorageService: LocalStorageService) { }
+              readonly localStorageService: LocalStorageService,
+              readonly router: Router) { }
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
@@ -79,15 +81,16 @@ export class NavbarComponent implements OnInit {
   }
 
   logIn(): void {
-    this.showLogIn = true;
+    this.router.navigate(['log-in']);
   }
 
   register(): void {
-    this.showRegister = true;
+    this.router.navigate(['register']);
   }
 
   logOut(): void {
     this.localStorageService.clearLocalStorage();
+    window.location.href = '/home';
   }
 
 }
