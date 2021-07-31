@@ -46,6 +46,8 @@ import {MakeOrderComponent} from './components/make-order/make-order.component';
 import {DocumentComponent} from './components/document/document.component';
 import {DocumentListComponent} from './components/document-list/document-list.component';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { ListingsMineComponent } from './components/listings-mine/listings-mine.component';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -65,6 +67,8 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     MakeOrderComponent,
     DocumentComponent,
     DocumentListComponent,
+    FavoritesComponent,
+    ListingsMineComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +103,7 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
   ],
   providers: [
     RouterLink,
-    // {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     MessageService
   ],
   bootstrap: [AppComponent]

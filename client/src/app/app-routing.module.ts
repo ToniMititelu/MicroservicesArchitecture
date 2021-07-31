@@ -6,6 +6,8 @@ import {MainComponent} from './components/main/main.component';
 import {ListingDetailsComponent} from './components/listing-details/listing-details.component';
 import {LogInComponent} from './components/log-in/log-in.component';
 import {RegisterComponent} from './components/register/register.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { ListingsMineComponent } from './components/listings-mine/listings-mine.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -24,6 +26,14 @@ const routes: Routes = [
   {
     path: 'listings',
     component: ListingsComponent,
+  },
+  {
+    path: 'listings/favorites',
+    component: FavoritesComponent,
+  },
+  {
+    path: 'listings/mine',
+    component: ListingsMineComponent,
   },
   {
     path: 'listings/create',

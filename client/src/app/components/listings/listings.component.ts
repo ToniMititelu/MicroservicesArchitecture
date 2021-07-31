@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ListingOut } from '../../models/listing.interface';
 import { ListingsService } from '../../services/listings.service';
 import { SelectItem } from 'primeng/api';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-listings',
@@ -9,10 +10,7 @@ import { SelectItem } from 'primeng/api';
   styleUrls: ['./listings.component.scss']
 })
 export class ListingsComponent implements OnInit {
-
-  @Input() mine = false;
-
-  listings: ListingOut[];
+  @Input() listings: ListingOut[];
 
   sortOptions: SelectItem[];
 
@@ -24,18 +22,22 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listingsService.getListings(this.mine)
-      .subscribe(
-        (response) => {
-          this.listings = [];
-          for (let i = 0; i < 4; i++) {
-            this.listings.push(...response);
-          }
-          // this.listings = response;
-        }, (error) => {
-          console.error(error);
-        }
-      );
+    setTimeout(() => {
+      if (!this.listings) {
+        this.listingsService.getListings()
+          .subscribe(
+            (response) => {
+              this.listings = [];
+              for (let i = 0; i < 4; i++) {
+                this.listings.push(...response);
+              }
+              // this.listings = response;
+            }, (error) => {
+              console.error(error);
+            }
+          );
+      }
+    }, 500);
   }
 
   onSortChange(event): void {

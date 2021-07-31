@@ -1,15 +1,16 @@
+from django.db.models import Q
 from ninja import Router
 from typing import List
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from ..utils import is_admin, is_owner, get_listing_expiration_date
-from ..schemas import GameListingIn, GameListingOut, Error, Success
-from ..models import GameListing, GameCategory, Currency, Platform
+from ..schemas import GameListingIn, GameListingOut, Error, Success, UserFavouriteOut, UserFavouriteIn
+from ..models import GameListing, GameCategory, Currency, Platform, UserFavourite
 
 router = Router()
 
 
-@router.post("/", response={201: GameListingOut, 400: Error}, auth=None)
+@router.post("/", response={201: GameListingOut, 400: Error})
 def create_game_listing(request, payload: GameListingIn):
     game_listing = payload.dict()
 
@@ -31,7 +32,7 @@ def create_game_listing(request, payload: GameListingIn):
     except Platform.DoesNotExist:
         return 400, {"message": "Platform not found"}
 
-    game_listing['user_id'] = 'test'
+    game_listing['user_id'] = request.auth['id']
     game_listing['category'] = game_category
     game_listing['currency'] = currency
     game_listing['platform'] = platform
@@ -62,6 +63,29 @@ def get_my_game_listings(request):
     return game_listings
 
 
+@router.get("/favorites/", response=List[GameListingOut])
+def get_my_favorites_listings(request):
+    user_favorites = [u.id for u in UserFavourite.objects.filter(user_id=request.auth['id'])]
+    game_listings = GameListing.objects.filter(id__in=user_favorites)
+    return game_listings
+
+
+@router.post("/favorites/", response=UserFavouriteOut)
+def add_listing_to_favorites(request, payload: UserFavouriteIn):
+    payload = payload.dict()
+    favourite = UserFavourite.objects.create(user_id=request.auth['id'], **payload)
+    return favourite
+
+
+@router.delete("/favorites/{favourite_id}/", response={200: Success, 403: Error})
+def delete_user_favourite(request, favourite_id: int):
+    game_listing = get_object_or_404(UserFavourite, id=favourite_id)
+    if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
+        return 403, {"message": "Only admins and owners can delete a game listing"}
+    game_listing.delete()
+    return 200, {'message': f'Removed from favourites'}
+
+
 @router.get("/{game_listing_id}/", response=GameListingOut, auth=None)
 def get_game_listing(request, game_listing_id: int):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
@@ -71,8 +95,8 @@ def get_game_listing(request, game_listing_id: int):
 @router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error}, auth=None)
 def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
-    # if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
-    #     return 403, {"message": "Only admins and owners can edit listings"}
+    if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
+        return 403, {"message": "Only admins and owners can edit listings"}
 
     payload = payload.dict()
     category_id = payload.pop('category_id', None)
@@ -102,10 +126,10 @@ def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     return 200, game_listing
 
 
-@router.delete("/{game_listing_id}/", response={200: Success, 403: Error}, auth=None)
+@router.delete("/{game_listing_id}/", response={200: Success, 403: Error})
 def delete_game_listing(request, game_listing_id: int):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
-    # if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
-    #     return 403, {"message": "Only admins and owners can delete a game listing"}
+    if not is_admin(request.auth) and not is_owner(request.auth, game_listing):
+        return 403, {"message": "Only admins and owners can delete a game listing"}
     game_listing.delete()
     return 200, {'message': f'Game category {game_listing_id} deleted successfully'}
