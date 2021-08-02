@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Platform} from '../models/platform';
-import {Currency} from '../models/currency.interface';
-import {Category} from '../models/categories.interface';
-import {ListingIn, ListingOut} from '../models/listing.interface';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Platform } from '../models/platform';
+import { Currency } from '../models/currency.interface';
+import { Category } from '../models/categories.interface';
+import { ListingIn, ListingOut } from '../models/listing.interface';
+import { FavouriteIn, FavouriteOut } from '../models/favourite.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,21 @@ export class ListingsService {
   deleteListing(id: number): Observable<any> {
     const url = `${this.baseUrl}/listings/${id}/`;
     return this.http.delete(url);
+  }
+
+  addFavourite(favourite: FavouriteIn): Observable<FavouriteOut> {
+    const url = `${this.baseUrl}/favorites/`;
+    return this.http.post<FavouriteOut>(url, favourite);
+  }
+
+  removeFavourite(id: number): Observable<any> {
+    const url = `${this.baseUrl}/favorites/${id}/`;
+    return this.http.delete(url);
+  }
+
+  getFavorites(): Observable<FavouriteOut[]> {
+    const url = `${this.baseUrl}/favorites/mine/`;
+    return this.http.get<FavouriteOut[]>(url);
   }
 
   convertOutListingToIn(listing: ListingOut): ListingIn {

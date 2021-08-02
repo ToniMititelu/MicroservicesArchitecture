@@ -23,7 +23,7 @@
               </a>
               <a [routerLink]="['/listings', listing.id, 'update']">
                 <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2"
-                          icon="pi pi-heart"></p-button>
+                          icon="pi pi-star-o"></p-button>
               </a>
               <a [routerLink]="['/listings', listing.id, 'update']">
                 <p-button type="button" styleClass="p-button p-button-rounded p-mr-2"
@@ -42,6 +42,12 @@
               <i class="pi pi-tag product-category-icon"></i>
               <span class="product-category">{{listing.category.name}}</span>
             </div>
+            <div class="product-badge p-text-right">
+              <p-button *ngIf="favorites.indexOf(listing.id) !== -1" type="button" (onClick)="removeFavourite(listing.id)"
+                        styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>
+              <p-button *ngIf="favorites.indexOf(listing.id) === -1" type="button" (onClick)="addFavourite(listing.id)"
+                        styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star-o"></p-button>
+            </div>
           </div>
           <div class="product-grid-item-content">
             <img [src]="'assets/logo.png'" [alt]="listing.name" style="max-width: 100px; max-height: 100px"/>
@@ -56,7 +62,6 @@
             <span class="product-price">{{listing.currency.symbol + listing.price}}</span>
             <div class="car-buttons p-mt-5">
               <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"></p-button>
-              <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>
               <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
             </div>
           </div>

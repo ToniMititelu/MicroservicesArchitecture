@@ -15,18 +15,6 @@ export class FavoritesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listingsService.getListings('favorites/')
-      .subscribe(
-        (response) => {
-          this.listings = [];
-          for (let i = 0; i < 4; i++) {
-            this.listings.push(...response);
-          }
-          // this.listings = response;
-        }, (error) => {
-          console.error(error);
-        }
-      );
   }
 
 }

@@ -3,6 +3,7 @@ import { ListingOut } from '../../models/listing.interface';
 import { ListingsService } from '../../services/listings.service';
 import { SelectItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
+import { FavouriteOut } from '../../models/favourite.interface';
 
 @Component({
   selector: 'app-listings',
@@ -11,6 +12,10 @@ import { forkJoin } from 'rxjs';
 })
 export class ListingsComponent implements OnInit {
   @Input() listings: ListingOut[];
+
+  @Input() completion;
+
+  favorites: number[];
 
   sortOptions: SelectItem[];
 
@@ -22,22 +27,31 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      if (!this.listings) {
-        this.listingsService.getListings()
-          .subscribe(
-            (response) => {
-              this.listings = [];
-              for (let i = 0; i < 4; i++) {
-                this.listings.push(...response);
-              }
-              // this.listings = response;
-            }, (error) => {
-              console.error(error);
-            }
-          );
-      }
-    }, 500);
+    forkJoin([this.listingsService.getListings(this.completion), this.listingsService.getFavorites()])
+      .subscribe(([listings, favorites]) => {
+        if (!this.listings) {
+          this.listings = listings;
+        }
+        this.favorites = favorites.map(favourite => {
+          return favourite.listing_id;
+        });
+      }, (error) => {
+        console.error(error);
+      });
+  }
+
+  addFavourite(listingId: number): void {
+    this.listingsService.addFavourite({listing_id: listingId})
+      .subscribe((response) => {
+        this.favorites.push(response.listing_id);
+      });
+  }
+
+  removeFavourite(listingId: number): void {
+    this.listingsService.removeFavourite(listingId)
+      .subscribe((response) => {
+        this.favorites.splice(this.favorites.indexOf(listingId), 1);
+      });
   }
 
   onSortChange(event): void {
