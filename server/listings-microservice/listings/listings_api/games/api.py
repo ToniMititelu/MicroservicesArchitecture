@@ -1,13 +1,19 @@
+import logging
+
 from django.db.models import Q
-from ninja import Router
+from ninja import Router, UploadedFile, File
 from typing import List
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from ..utils import is_admin, is_owner, get_listing_expiration_date
 from ..schemas import GameListingIn, GameListingOut, Error, Success, UserFavouriteOut, UserFavouriteIn
-from ..models import GameListing, GameCategory, Currency, Platform, UserFavourite
+from ..models import GameListing, GameCategory, Currency, Platform, UserFavourite, Image
 
 router = Router()
+
+
+logger = logging.getLogger()
+logger.setLevel('INFO')
 
 
 @router.post("/", response={201: GameListingOut, 400: Error})
@@ -92,7 +98,21 @@ def get_game_listing(request, game_listing_id: int):
     return game_listing
 
 
-@router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error}, auth=None)
+@router.get("/{game_listing_id}/images/", auth=None)
+def get_game_listing_images(request, game_listing_id: int):
+    game_listing = get_object_or_404(GameListing, id=game_listing_id)
+    images = Image.objects.filter(listing=game_listing)
+    return [file.image.name.replace('listings/', '') for file in images]
+
+
+@router.post("/{game_listing_id}/images/", auth=None)
+def upload_images(request, game_listing_id: int, files: List[UploadedFile] = File(...)):
+    game_listing = get_object_or_404(GameListing, id=game_listing_id)
+    Image.objects.bulk_create([Image(listing=game_listing, image=image) for image in files])
+    return [f.name for f in files]
+
+
+@router.put("/{game_listing_id}/", response={200: GameListingOut, 403: Error})
 def update_game_listing(request, game_listing_id: int, payload: GameListingIn):
     game_listing = get_object_or_404(GameListing, id=game_listing_id)
     if not is_admin(request.auth) and not is_owner(request.auth, game_listing):

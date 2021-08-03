@@ -12,6 +12,7 @@ import { FavouriteIn, FavouriteOut } from '../models/favourite.interface';
 })
 export class ListingsService {
   baseUrl = 'http://localhost:8080/api/listings/v1';
+  baseImageUrl = 'http://localhost:8080/api/listings/media/listings';
 
   constructor(readonly http: HttpClient) {
   }
@@ -49,6 +50,25 @@ export class ListingsService {
   updateListing(listing: ListingIn, id: number): Observable<ListingOut> {
     const url = `${this.baseUrl}/listings/${id}/`;
     return this.http.put<ListingOut>(url, listing);
+  }
+
+  uploadImages(listingId: number, images: any[]): Observable<any> {
+    const formData: FormData = new FormData();
+    images.forEach(image => {
+      formData.append('files', image);
+    });
+    const url = `${this.baseUrl}/listings/${listingId}/images/`;
+    return this.http.post(url, formData);
+  }
+
+  getListingsImages(listingId: number): Observable<string[]> {
+    const url = `${this.baseUrl}/listings/${listingId}/images/`;
+    return this.http.get<string[]>(url);
+  }
+
+  getImage(imageName: string): Observable<any> {
+    const url = `${this.baseImageUrl}/${imageName}/`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
   deleteListing(id: number): Observable<any> {

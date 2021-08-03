@@ -12,6 +12,7 @@ export interface ListingIn {
   category_id?: number;
   currency_code?: string;
   platform_code?: string;
+  files?: any[];
 }
 
 export interface ListingOut {

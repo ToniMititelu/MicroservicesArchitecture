@@ -15,6 +15,7 @@ PyJWT = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 redis = "*"
+pillow = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

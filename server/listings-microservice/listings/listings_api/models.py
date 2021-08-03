@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+
+from listings import settings
 from .validators import validate_price
 
 
@@ -46,7 +48,7 @@ class GameListing(Model):
 
 class Image(Model):
     listing = models.ForeignKey(GameListing, on_delete=models.CASCADE)
-    data = models.TextField()
+    image = models.ImageField(upload_to='listings', null=True, blank=True)
 
 
 class UserFavourite(Model):

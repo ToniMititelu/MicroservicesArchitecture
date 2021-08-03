@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -24,8 +25,6 @@ SECRET_KEY = 'django-insecure-&sb#^w6zi9x!$++(gl8*&neh38w5&i1n#==!k*5me@u79uli_o
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -134,10 +133,15 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'

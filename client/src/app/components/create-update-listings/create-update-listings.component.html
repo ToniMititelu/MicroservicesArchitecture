@@ -56,12 +56,10 @@
         <div>
           Photos
         </div>
-        <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
-                      accept="image/*" [multiple]="multiple" [maxFileSize]="maxFileSize">
+        <p-fileUpload name="files" [fileLimit]="5" [showUploadButton]="false" (onSelect)="updateFiles($event)"
+                      [customUpload]="true" accept="image/*" [multiple]="multiple" [maxFileSize]="maxFileSize"
+                      [files]="uploadedFiles" (onRemove)="removeFile($event)" (onClear)="uploadedFiles = []">
           <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-              <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-            </ul>
           </ng-template>
         </p-fileUpload>
       </div>

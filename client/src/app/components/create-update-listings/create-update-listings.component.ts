@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ListingsService} from '../../services/listings.service';
-import {forkJoin} from 'rxjs';
-import {ListingIn, ListingOut} from '../../models/listing.interface';
-import {Message, MessageService} from 'primeng/api';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ListingsService } from '../../services/listings.service';
+import { forkJoin } from 'rxjs';
+import { ListingIn, ListingOut } from '../../models/listing.interface';
+import { Message, MessageService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-update-listings',
@@ -23,6 +23,7 @@ export class CreateUpdateListingsComponent implements OnInit {
   currentListing: ListingOut;
   platform: any;
   mandatoryFields = ['name', 'description', 'price', 'category_id', 'currency_code', 'platform_code'];
+  images = [];
 
   constructor(readonly listingsService: ListingsService,
               readonly messageService: MessageService,
@@ -60,25 +61,39 @@ export class CreateUpdateListingsComponent implements OnInit {
         });
 
         if (this.listingId) {
-          this.listingsService.getListing(this.listingId)
-            .subscribe(
-              (response) => {
-                this.currentListing = response;
-                this.newListing = this.listingsService.convertOutListingToIn(response);
-              }, (error) => {
-                console.error();
+          forkJoin([this.listingsService.getListing(this.listingId), this.listingsService.getListingsImages(this.listingId)])
+            .subscribe(async ([listing, images]) => {
+              this.currentListing = listing;
+              this.newListing = this.listingsService.convertOutListingToIn(listing);
+              for (const image of images) {
+                const p = new Promise(((resolve, reject) => {
+                  this.listingsService.getImage(image)
+                    .subscribe((response) => {
+                      const f = new File([response], image, {type: response.type});
+                      resolve(f);
+                    }, (error) => reject(error));
+                }));
+
+                try {
+                  this.images.push(await p);
+                } catch (e) {
+                  console.error(e);
+                }
               }
-            );
+              this.uploadedFiles = this.images;
+            });
         }
       }
     );
   }
 
-  onUpload(event): void {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
+  updateFiles(event): void {
+    this.uploadedFiles = event.currentFiles;
+  }
 
+  removeFile(event): void {
+    const name = event.file.name;
+    this.uploadedFiles = this.uploadedFiles.filter(file => file.name !== name);
   }
 
   submit(event: Event): void {
@@ -99,11 +114,19 @@ export class CreateUpdateListingsComponent implements OnInit {
       .subscribe(
         (response) => {
           this.currentListing = response;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Request succeeded',
-            detail: `Listing ${this.currentListing.name} saved successfully`
-          });
+          const newFiles = this.uploadedFiles.filter(file => this.oldImage(file));
+          if (newFiles.length > 0) {
+            this.listingsService.uploadImages(this.currentListing.id, this.uploadedFiles)
+              .subscribe((responseImage) => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Request succeeded',
+                  detail: `Listing ${this.currentListing.name} saved successfully`
+                });
+              }, (error) => {
+                console.error(error);
+              });
+          }
         }, (error) => {
           console.error(error);
         }
@@ -112,6 +135,10 @@ export class CreateUpdateListingsComponent implements OnInit {
 
   cancel(event: Event): void {
     this.router.navigate(['home']);
+  }
+
+  oldImage(file): boolean {
+    return !this.images.some(image => image.name === file.name);
   }
 
   delete(event: Event): void {
