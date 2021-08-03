@@ -63,7 +63,8 @@ const register = async (req, res) => {
         'userName': registerData.userName,
         'email': registerData.email,
         'password': hashedPassword,
-        'role': registerData.role
+        'role': registerData.role,
+        'phone': registerData.phone || '',
     });
 
     let registeredUser;
@@ -102,6 +103,41 @@ const users = async (req, res) => {
     );
 }
 
+const getUser = async (req, res) => {
+    const id = req.params.id;
+    const user = await User.findById(id).lean().exec();
+    delete user.password;
+    if (user) {
+        return res.status(StatusCodes.OK).json(user);
+    }
+    return res.status(StatusCodes.NOT_FOUND).json({'message': 'Not found'});
+}
+
+const updateUser = async (req, res) => {
+    const id = req.params.id;
+    const user = await User.findOne({_id: id}).exec();
+    console.log(user);
+    const currentUser = res.locals.decoded;
+    if (!user) {
+        return res.status(StatusCodes.NOT_FOUND).json({'message': 'Not found'});
+    }
+
+    if (user.id != currentUser.id && currentUser.role != 'ADMIN') {
+        return res.status(StatusCodes.FORBIDDEN).json({'message': 'You don not have permissions to acces this resource'});
+    }
+
+    user.userName = req.body.userName || user.userName;
+    user.phone = req.body.phone || user.phone;
+    user.email = req.body.email || user.email;
+    
+    try {
+        return res.status(StatusCodes.OK).json(await user.save());
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, please try again.'})
+    }
+}
+
 const generateTokens = async (user) => {
     const data = {
         id: user._id.toString(),
@@ -124,5 +160,7 @@ module.exports = {
     register,
     me,
     users,
+    getUser,
+    updateUser,
     refreshToken,
 };
