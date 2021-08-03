@@ -116,7 +116,6 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
     const id = req.params.id;
     const user = await User.findOne({_id: id}).exec();
-    console.log(user);
     const currentUser = res.locals.decoded;
     if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json({'message': 'Not found'});
