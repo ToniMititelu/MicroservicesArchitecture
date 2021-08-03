@@ -44,7 +44,7 @@ def get_user_favourite(request, user_favourite_id: int):
 
 @router.delete("/{user_favourite_id}/", response={200: Success, 403: Error})
 def delete_game_listing(request, user_favourite_id: int):
-    user_favourite = get_object_or_404(GameListing, id=user_favourite_id)
+    user_favourite = get_object_or_404(UserFavourite, id=user_favourite_id)
     if not is_admin(request.auth) and not is_owner(request.auth, user_favourite):
         return 403, {"message": "Only admins and owners can delete a game listing from favorites"}
     user_favourite.delete()

@@ -4,6 +4,7 @@ import { ListingsService } from '../../services/listings.service';
 import { SelectItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { FavouriteOut } from '../../models/favourite.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listings',
@@ -11,11 +12,13 @@ import { FavouriteOut } from '../../models/favourite.interface';
   styleUrls: ['./listings.component.scss']
 })
 export class ListingsComponent implements OnInit {
-  @Input() listings: ListingOut[];
 
   @Input() completion;
+  @Input() mine = false;
 
-  favorites: number[];
+  listings: ListingOut[];
+
+  favorites = new Map();
 
   sortOptions: SelectItem[];
 
@@ -23,7 +26,8 @@ export class ListingsComponent implements OnInit {
 
   sortField: string;
 
-  constructor(readonly listingsService: ListingsService) {
+  constructor(readonly listingsService: ListingsService,
+              readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,8 +36,8 @@ export class ListingsComponent implements OnInit {
         if (!this.listings) {
           this.listings = listings;
         }
-        this.favorites = favorites.map(favourite => {
-          return favourite.listing_id;
+        favorites.forEach(favourite => {
+          this.favorites.set(favourite.listing_id, favourite.id);
         });
       }, (error) => {
         console.error(error);
@@ -43,15 +47,27 @@ export class ListingsComponent implements OnInit {
   addFavourite(listingId: number): void {
     this.listingsService.addFavourite({listing_id: listingId})
       .subscribe((response) => {
-        this.favorites.push(response.listing_id);
+        this.favorites.set(response.listing_id, response.id);
       });
   }
 
   removeFavourite(listingId: number): void {
-    this.listingsService.removeFavourite(listingId)
+    if (!this.favorites.has(listingId)) {
+      return;
+    }
+    const favouriteId = this.favorites.get(listingId);
+    this.listingsService.removeFavourite(favouriteId)
       .subscribe((response) => {
-        this.favorites.splice(this.favorites.indexOf(listingId), 1);
+        this.favorites.delete(listingId);
       });
+  }
+
+  goToDetailPage(listingId: number): void {
+    this.router.navigate(['/listings', listingId, 'details']);
+  }
+
+  goToUpdatePage(listingId: number): void {
+    this.router.navigate(['/listings', listingId, 'update']);
   }
 
   onSortChange(event): void {

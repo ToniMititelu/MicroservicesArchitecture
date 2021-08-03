@@ -65,7 +65,7 @@ def get_my_game_listings(request):
 
 @router.get("/favorites/", response=List[GameListingOut])
 def get_my_favorites_listings(request):
-    user_favorites = [u.id for u in UserFavourite.objects.filter(user_id=request.auth['id'])]
+    user_favorites = [u.listing.id for u in UserFavourite.objects.filter(user_id=request.auth['id'])]
     game_listings = GameListing.objects.filter(id__in=user_favorites)
     return game_listings
 
