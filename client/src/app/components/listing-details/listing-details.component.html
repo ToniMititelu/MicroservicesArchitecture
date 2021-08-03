@@ -8,32 +8,33 @@
       </div>
       <div class="p-col">
         <p-card>
-          <div class="p-grid">
-            <div class="p-col-8">
-              <p class="mono-font">FIFA 22 PS5</p>
-            </div>
-            <div class="p-col-4">
-              <div class="p-text-right car-buttons p-mt-5">
-                <a [routerLink]="['/listings']">
-                  <p-button type="button" styleClass="p-button-danger p-button-rounded p-mr-2"
-                            icon="pi pi-heart"></p-button>
-                </a>
-                <a [routerLink]="['/listings']">
-                  <p-button type="button" styleClass="p-button p-button-rounded p-mr-2"
-                            icon="pi pi-shopping-cart"></p-button>
-                </a>
+          <div class="p-grid p-flex-column">
+            <div class="p-col">
+              <div class="p-grid">
+                <div class="p-col-8">
+                  <p class="mono-font">{{listing.name}}</p>
+                </div>
+                <div class="p-col-4">
+                  <div class="p-text-right car-buttons p-mt-5">
+                    <a [routerLink]="['/listings']">
+                      <p-button type="button" styleClass="p-button-danger p-button-rounded p-mr-2"
+                                icon="pi pi-heart"></p-button>
+                    </a>
+                    <a [routerLink]="['/listings']">
+                      <p-button type="button" styleClass="p-button p-button-rounded p-mr-2"
+                                icon="pi pi-shopping-cart"></p-button>
+                    </a>
+                  </div>
+                </div>
+                <div class="p-col">
+                  <p style="font-size: 1.5em;">Price: {{listing.currency.symbol}}{{listing.price | number : '1.2-2'}}</p>
+                </div>
               </div>
             </div>
           </div>
-          <p style="font-size: 1.5em;">Price: $45</p>
           <p-divider></p-divider>
           <p style="font-size: 1.5em;">Description</p>
-          <p style="font-size: 1em">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum commodo sem nulla. Sed fringilla
-            molestie porttitor. Suspendisse commodo sem et nisl tristique, eget congue erat porttitor.
-            Duis sem arcu, porta vitae egestas ut, finibus sed arcu. Aenean fringilla libero enim.
-            Duis vitae tortor in felis sodales bibendum sit amet ut neque.
-          </p>
+          <p style="font-size: 1em">{{listing.description}}</p>
         </p-card>
       </div>
       <div class="p-col">
@@ -42,7 +43,7 @@
             <div class="p-col">
               <div class="p-grid">
                 <div class="p-col p-jc-start">
-                  <p>Send a message to user123</p>
+                  <p>Send a message to {{owner.userName}}</p>
                 </div>
               </div>
             </div>
@@ -72,11 +73,11 @@
             <div class="p-col">
               <div class="p-d-flex">
                 <div class="p-mr-2">
-                  <p-avatar label="P" styleClass="p-mr-2" size="xlarge" shape="circle"></p-avatar>
+                  <p-avatar label="{{owner.userName.substring(0, 3)}}" styleClass="p-mr-2" size="xlarge" shape="circle"></p-avatar>
                 </div>
                 <div class="p-mr-2">
-                  <p>User123</p>
-                  <p>Phone: 0761231231</p>
+                  <p>{{owner.userName}}</p>
+                  <p>Phone: {{owner.phone}}</p>
                 </div>
               </div>
             </div>

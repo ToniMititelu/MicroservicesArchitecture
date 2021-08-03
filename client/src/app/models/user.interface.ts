@@ -13,7 +13,8 @@ export interface UserLogIn {
 
 export interface User {
   _id: string;
-  username: string;
+  userName: string;
   email: string;
   role: string;
+  phone: string;
 }
