@@ -1,0 +1,11 @@
+<p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [numVisible]="5"
+            [circular]="true" [showItemNavigators]="true" [showThumbnailNavigators]="false">
+  <ng-template pTemplate="item" let-item>
+    <img [src]="getImageSrc(item)" style="min-width: 100px; min-height: 500px; max-width: 90%; max-height: 500px" />
+  </ng-template>
+  <ng-template pTemplate="thumbnail" let-item>
+    <div class="p-grid p-nogutter p-text-center">
+      <img [src]="getImageSrc(item)" style="width: 100px; height: 100px" />
+    </div>
+  </ng-template>
+</p-galleria>

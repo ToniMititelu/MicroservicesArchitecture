@@ -71,6 +71,10 @@ export class ListingsService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  getImageSrc(imageName: string): string {
+    return `${this.baseImageUrl}/${imageName}/`;
+  }
+
   deleteListing(id: number): Observable<any> {
     const url = `${this.baseUrl}/listings/${id}/`;
     return this.http.delete(url);

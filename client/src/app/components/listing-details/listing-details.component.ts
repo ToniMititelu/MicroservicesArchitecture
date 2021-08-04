@@ -4,6 +4,7 @@ import { ListingsService } from '../../services/listings.service';
 import { ListingOut } from '../../models/listing.interface';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.interface';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-listing-details',
@@ -24,6 +25,8 @@ export class ListingDetailsComponent implements OnInit {
 
   loading = false;
 
+  images: any[] = [];
+
   constructor(readonly route: ActivatedRoute,
               readonly router: Router,
               readonly listingsService: ListingsService,
@@ -35,10 +38,10 @@ export class ListingDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.listingsService.getListing(this.listingId)
-      .subscribe((response) => {
-        this.listing = response;
-        this.userService.getUser(response.user_id)
+    forkJoin([this.listingsService.getListing(this.listingId), this.listingsService.getListingsImages(this.listingId)])
+      .subscribe(async ([listing, images]) => {
+        this.listing = listing;
+        this.userService.getUser(listing.user_id)
           .subscribe((user) => {
             console.log(user);
             this.owner = user;
@@ -46,6 +49,10 @@ export class ListingDetailsComponent implements OnInit {
           }, (error) => {
             console.error(error);
           });
+
+        this.images = images;
+        this.images.push(...images);
+        this.images.push(...images);
       }, (error) => {
         console.error(error);
       });
