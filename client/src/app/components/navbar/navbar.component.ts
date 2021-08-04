@@ -21,11 +21,21 @@ export class NavbarComponent implements OnInit {
     },
     {
       label: 'Account',
-      icon: 'pi pi-fw pi-user',
+      icon: 'pi pi-fw pi-users',
       items: [
         {
           label: 'Profile',
-          icon: 'pi pi-fw pi-user-edit',
+          icon: 'pi pi-fw pi-user',
+          items: [
+            {
+              label: 'Edit profile',
+              icon: 'pi pi-fw pi-user-edit',
+            },
+            {
+              label: 'My addresses',
+              icon: 'pi pi-fw pi-home',
+            }
+          ]
         },
         {
           label: 'Orders',

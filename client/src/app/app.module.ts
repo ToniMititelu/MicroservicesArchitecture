@@ -51,6 +51,7 @@ import { ListingsMineComponent } from './components/listings-mine/listings-mine.
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { GalleriaComponent } from './components/galleria/galleria.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { CreateEditAddressComponent } from './components/create-edit-address/create-edit-address.component';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -73,6 +74,7 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     FavoritesComponent,
     ListingsMineComponent,
     GalleriaComponent,
+    CreateEditAddressComponent,
   ],
   imports: [
     BrowserModule,
