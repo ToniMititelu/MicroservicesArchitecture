@@ -22,6 +22,8 @@ export class ListingDetailsComponent implements OnInit {
 
   owner: User;
 
+  loading = false;
+
   constructor(readonly route: ActivatedRoute,
               readonly router: Router,
               readonly listingsService: ListingsService,
@@ -32,6 +34,7 @@ export class ListingDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.listingsService.getListing(this.listingId)
       .subscribe((response) => {
         this.listing = response;
@@ -39,6 +42,7 @@ export class ListingDetailsComponent implements OnInit {
           .subscribe((user) => {
             console.log(user);
             this.owner = user;
+            this.loading = false;
           }, (error) => {
             console.error(error);
           });

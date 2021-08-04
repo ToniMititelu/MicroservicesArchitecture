@@ -27,6 +27,18 @@ export class NavbarComponent implements OnInit {
           label: 'Profile',
           icon: 'pi pi-fw pi-user-edit',
         },
+        {
+          label: 'Orders',
+          icon: 'pi pi-fw pi-shopping-cart',
+          items: [
+            {
+              label: 'My orders'
+            },
+            {
+              label: 'Orders for my listings'
+            }
+          ],
+        }
       ]
     },
     {
