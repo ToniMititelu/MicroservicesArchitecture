@@ -1,1 +1,77 @@
-<p>create-edit-address works!</p>
+<p-toast></p-toast>
+
+<p-card>
+  <div style="text-align: center;">
+    <div class="p-grid p-flex-column">
+      <p class="mono-font">{{!addressId ? 'Add new address' : 'Edit address'}}</p>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <input type="text" id="country" name="country" aria-describedby="name-help"
+                 pInputText [(ngModel)]="address.country">
+          <label for="country">Country</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <input type="text" id="city" name="city" aria-describedby="name-help"
+                 pInputText [(ngModel)]="address.city">
+          <label for="city">City</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <input type="text" id="street" name="street" aria-describedby="name-help"
+                 pInputText [(ngModel)]="address.street">
+          <label for="street">Street</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <input type="text" id="number" name="number" aria-describedby="name-help"
+                 pInputText [(ngModel)]="address.number">
+          <label for="number">Number</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <span class="p-float-label">
+          <input type="text" id="other" name="other" aria-describedby="name-help"
+                 pInputText [(ngModel)]="address.other">
+          <label for="other">Other</label>
+        </span>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <div class="p-grid p-text-center">
+          <div class="p-col">
+            <div class="p-field-checkbox">
+              <p-checkbox [binary]="true" inputId="isDefault" [(ngModel)]="address.isDefault"></p-checkbox>
+              <label for="isDefault">Default address</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <div class="p-col-6 p-offset-3">
+        <div class="p-grid p-jc-center">
+          <div class="p-col-2">
+            <button pButton pRipple type="button" label="Submit" class="p-button-success"
+                    icon="pi pi-check" iconPos="right" (click)="submit($event)"></button>
+          </div>
+          <div class="p-col-2" [ngStyle]="{'display': !addressId ? 'none' : 'block'}">
+            <button pButton pRipple type="button" label="Delete" class="p-button-danger"
+                    icon="pi pi-trash" iconPos="right" (click)="delete($event)"></button>
+          </div>
+          <div class="p-col-2">
+            <button pButton pRipple type="button" label="Cancel" class="p-button-warning"
+                    icon="pi pi-times" iconPos="right" (click)="cancel($event)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-card>
+

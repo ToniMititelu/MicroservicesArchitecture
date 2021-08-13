@@ -8,6 +8,7 @@ import {LogInComponent} from './components/log-in/log-in.component';
 import {RegisterComponent} from './components/register/register.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { ListingsMineComponent } from './components/listings-mine/listings-mine.component';
+import { CreateEditAddressComponent } from './components/create-edit-address/create-edit-address.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -46,6 +47,18 @@ const routes: Routes = [
   {
     path: 'listings/:id/details',
     component: ListingDetailsComponent,
+  },
+  {
+    path: 'addresses/mine',
+    component: CreateEditAddressComponent,
+  },
+  {
+    path: 'addresses/create',
+    component: CreateEditAddressComponent,
+  },
+  {
+    path: 'addresses/:id/update',
+    component: CreateEditAddressComponent,
   },
   {
     path: '**',
