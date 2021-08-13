@@ -9,6 +9,7 @@ import {RegisterComponent} from './components/register/register.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { ListingsMineComponent } from './components/listings-mine/listings-mine.component';
 import { CreateEditAddressComponent } from './components/create-edit-address/create-edit-address.component';
+import { AddressesComponent } from './components/addresses/addresses.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -50,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: 'addresses/mine',
-    component: CreateEditAddressComponent,
+    component: AddressesComponent,
   },
   {
     path: 'addresses/create',

@@ -35,7 +35,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {FileUploadModule} from 'primeng/fileupload';
 import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
-import {MessageService} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {RouterLink} from '@angular/router';
 import {CarouselComponent} from './components/carousel/carousel.component';
@@ -52,6 +52,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { GalleriaComponent } from './components/galleria/galleria.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { CreateEditAddressComponent } from './components/create-edit-address/create-edit-address.component';
+import { AddressesComponent } from './components/addresses/addresses.component';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -75,6 +79,7 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     ListingsMineComponent,
     GalleriaComponent,
     CreateEditAddressComponent,
+    AddressesComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,11 +113,15 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     SocketIoModule.forRoot(config),
     ProgressSpinnerModule,
     GalleriaModule,
+    TableModule,
+    ToolbarModule,
+    ConfirmDialogModule,
   ],
   providers: [
     RouterLink,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-    MessageService
+    MessageService,
+    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })

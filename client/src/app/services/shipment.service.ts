@@ -28,11 +28,6 @@ export class ShipmentService {
     return this.http.get<Address[]>(url);
   }
 
-  getMyDefaultAddress(): Observable<Address> {
-    const url = `${this.baseUrl}/addresses/mine/default/`;
-    return this.http.get<Address>(url);
-  }
-
   createAddress(address: Address): Observable<Address> {
     const url = `${this.baseUrl}/addresses/`;
     return this.http.post<Address>(url, address);

@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit {
             {
               label: 'My addresses',
               icon: 'pi pi-fw pi-home',
+              routerLink: ['addresses/mine'],
             }
           ]
         },
