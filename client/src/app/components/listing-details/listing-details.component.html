@@ -90,7 +90,7 @@
         </p-card>
       </div>
       <div class="p-col">
-        <p-card>
+        <p-card *ngIf="!!address">
           <div class="p-grid p-flex-column">
             <div class="p-col">
               <p style="font-size: 1.5em">Seller location</p>
@@ -98,16 +98,16 @@
             <div class="p-col">
               <div class="p-grid p-flex-column">
                 <div class="p-col">
-                  Country: Romania
+                  Country: {{address.country}}
                 </div>
                 <div class="p-col">
-                  City: Bucharest
+                  City: {{address.city}}
                 </div>
                 <div class="p-col">
-                  Street: Pantelimon 15
+                  Street: {{address.street}}, no.{{address.number}}
                 </div>
                 <div class="p-col">
-                  No: bl.3, ap. 37
+                  Other: {{address.other}}
                 </div>
               </div>
             </div>

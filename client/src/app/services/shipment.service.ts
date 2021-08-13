@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Address } from '../models/address.interface';
+import { A } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,11 @@ export class ShipmentService {
 
   getAddresses(): Observable<Address[]> {
     const url = `${this.baseUrl}/addresses/`;
+    return this.http.get<Address[]>(url);
+  }
+
+  getUserAddress(userId: string): Observable<Address[]> {
+    const url = `${this.baseUrl}/addresses/user/${userId}`;
     return this.http.get<Address[]>(url);
   }
 

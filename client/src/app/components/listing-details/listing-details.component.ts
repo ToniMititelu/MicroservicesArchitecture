@@ -5,6 +5,8 @@ import { ListingOut } from '../../models/listing.interface';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.interface';
 import { forkJoin } from 'rxjs';
+import { ShipmentService } from '../../services/shipment.service';
+import { Address } from '../../models/address.interface';
 
 @Component({
   selector: 'app-listing-details',
@@ -27,9 +29,12 @@ export class ListingDetailsComponent implements OnInit {
 
   images: any[] = [];
 
+  address: Address;
+
   constructor(readonly route: ActivatedRoute,
               readonly router: Router,
               readonly listingsService: ListingsService,
+              readonly shipmentService: ShipmentService,
               readonly userService: UserService,) {
     this.route.paramMap.subscribe(paramMap => {
       this.listingId = Number(paramMap.get('id'));
@@ -38,16 +43,19 @@ export class ListingDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    forkJoin([this.listingsService.getListing(this.listingId), this.listingsService.getListingsImages(this.listingId)])
+    forkJoin([this.listingsService.getListing(this.listingId),
+      this.listingsService.getListingsImages(this.listingId)])
       .subscribe(async ([listing, images]) => {
         this.listing = listing;
-        this.userService.getUser(listing.user_id)
-          .subscribe((user) => {
+
+        forkJoin([this.userService.getUser(listing.user_id), this.shipmentService.getUserAddress(listing.user_id)])
+          .subscribe(([user, addresses]) => {
             console.log(user);
             this.owner = user;
+            if (addresses.length > 0) {
+              this.address = addresses[0];
+            }
             this.loading = false;
-          }, (error) => {
-            console.error(error);
           });
 
         this.images = images;

@@ -13,19 +13,13 @@ const createAddress = async (req, res) => {
     const addressData = {...req.body}
     console.log(addressData);
 
-    const userDefaultAddress = await Address.find({'userId': userId, 'isDefault': true}).lean().exec();
-    if (userDefaultAddress && addressData.isDefault) {
-        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'You already have a default address set'});
-    }
-
     const newAddress = Address({
-        'userId': 'userId',
+        'userId': userId,
         'country': addressData.country,
         'city': addressData.city,
         'street': addressData.street,
         'number': addressData.number,
         'other': addressData.other,
-        'isDefault': addressData.isDefault
     });
     
     try {
@@ -38,12 +32,8 @@ const createAddress = async (req, res) => {
 }
 
 const updateAddress = async (req, res) => {
-    let address = res.locals.decoded.address;
-
-    const userDefaultAddress = await Address.find({'userId': userId, 'isDefault': true, '_id': { $ne: address._id }}).lean().exec();
-    if (userDefaultAddress && address.isDefault) {
-        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'You already have a default address set'});
-    }
+    let address = res.locals.decoded.address;    
+    const userId = res.locals.decoded.id;
     
     address.country = req.body.country || address.country;
     address.city = req.body.city || address.city;
@@ -83,12 +73,6 @@ const mine = async (req, res) => {
     return res.status(StatusCodes.OK).json(addresses)
 }
 
-const mineDefault = async (req, res) => {
-    const userId = res.locals.decoded.id;
-    const address = await Address.findOne({'userId': userId, 'isDefault': true}).lean().exec()
-    return res.status(StatusCodes.OK).json(address);
-}
-
 const getShipments = async (req, res) => {
     const shipments = await Shipment.find({}).lean().exec();
     return res.status(StatusCodes.OK).json(shipments);
@@ -121,14 +105,20 @@ const createShipment = async (req, res) => {
     }
 }
 
+const userAddresses = async (req, res) => {
+    const userId = req.params.id;
+    const addresses = await Address.find({userId: userId}).lean().exec();
+    return res.status(StatusCodes.OK).json(addresses)
+}
+
 module.exports = {
     createAddress,
     updateAddress,
     getAllAddresses,
     getAddress,
     deleteAddres,
-    mine, 
-    mineDefault,
+    userAddresses,
+    mine,
     createShipment,
     getShipment,
     getShipments,

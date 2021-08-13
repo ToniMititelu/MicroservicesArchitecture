@@ -14,6 +14,7 @@ router.get('/:id', authenticationMiddleware, adminOrOwnerMiddleware, controller.
 
 router.get('/addresses/', authenticationMiddleware, adminMiddleware, controller.getAllAddresses);
 router.get('/addresses/mine/', authenticationMiddleware, controller.mine);
+router.get('/addresses/user/:id/', authenticationMiddleware, controller.userAddresses);
 router.get('/addresses/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.getAddress);
 
 router.post('/', authenticationMiddleware, controller.createShipment);
