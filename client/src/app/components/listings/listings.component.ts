@@ -66,6 +66,10 @@ export class ListingsComponent implements OnInit {
     this.router.navigate(['/listings', listingId, 'details']);
   }
 
+  goToCreateOrderPage(listingId: number): void {
+    this.router.navigate(['/orders', 'create'], {queryParams: {listing: listingId}});
+  }
+
   goToUpdatePage(listingId: number): void {
     this.router.navigate(['/listings', listingId, 'update']);
   }
