@@ -16,7 +16,8 @@ const createOrder = async (req, res) => {
         'listingId': orderData.listingId,
         'shippingAddressId': orderData.shippingAddressId,
         'totalAmount': orderData.totalAmount,
-        'currency': orderData.currency
+        'currency': orderData.currency,
+        'ownerId': orderData.ownerId,
     });
     
     try {
@@ -30,6 +31,18 @@ const createOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
     const orders = await Order.find({}).lean().exec();
+    return res.status(StatusCodes.OK).json(orders);
+}
+
+const getMyOrders = async (req, res) => {
+    const userId = res.locals.decoded.id;
+    const orders = await Order.find({userId: userId}).lean().exec();
+    return res.status(StatusCodes.OK).json(orders);
+}
+
+const getOrdersForMyConfirmation = async (req, res) => {
+    const userId = res.locals.decoded.id;
+    const orders = await Order.find({ownerId: userId}).lean().exec();
     return res.status(StatusCodes.OK).json(orders);
 }
 
@@ -63,6 +76,8 @@ module.exports = {
     createOrder,
     getAllOrders,
     getOrder,
+    getMyOrders,
+    getOrdersForMyConfirmation,
     deleteOrder,
     confirmOrder,
 };

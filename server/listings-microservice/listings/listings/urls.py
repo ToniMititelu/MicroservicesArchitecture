@@ -22,13 +22,6 @@ from listings import settings
 
 from listings_api.api import api
 
-router = routers.DefaultRouter()
-router.register('platforms', views.PlatformViewSet)
-router.register('currencies', views.CurrencyViewSet)
-router.register('categories', views.GameCategoryViewSet)
-router.register('listings', views.GameListingViewSet)
-router.register('favorites', views.UserFavouriteViewSet)
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', api.urls),

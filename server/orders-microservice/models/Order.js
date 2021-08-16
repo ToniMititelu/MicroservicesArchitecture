@@ -6,6 +6,10 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     },
+    ownerId: {
+        type: String,
+        required: true
+    },
     totalAmount: {
         type: Number,
         required: true

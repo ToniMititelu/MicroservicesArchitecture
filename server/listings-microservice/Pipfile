@@ -16,6 +16,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 redis = "*"
 pillow = "*"
+ipython = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
