@@ -1,1 +1,29 @@
-<p>make-order works!</p>
+<p-progressSpinner *ngIf="loading"></p-progressSpinner>
+
+<p-card *ngIf="!loading">
+  <div class="p-grid p-flex-column">
+    <div class="p-col-6 p-offset-3">
+      <div class="p-grid">
+        <div class="p-col">
+          {{listing.name}}
+        </div>
+        <div class="p-col">
+          {{listing.currency.symbol}}{{listing.price | number : '1.2-2'}}
+        </div>
+      </div>
+    </div>
+    <p-divider></p-divider>
+    <div class="p-col-6 p-offset-3">
+      <a *ngIf="!addresses.length" [routerLink]="['addresses/create']">Add new address <i class="pi pi-external-link"></i></a>
+      <span *ngIf="addresses.length" class="p-float-label">
+        <p-dropdown inputId="address" [autoDisplayFirst]="false" [options]="addressesData"
+                    optionLabel="name" optionValue="code" [(ngModel)]="addressId"></p-dropdown>
+        <label for="address">Address</label>
+      </span>
+    </div>
+    <p-divider></p-divider>
+    <div class="p-col-6 p-offset-3 p-text-center">
+      <p-button label="Place order" icon="pi pi-money-bill" iconPos="right" (onClick)="sendOrder()"></p-button>
+    </div>
+  </div>
+</p-card>

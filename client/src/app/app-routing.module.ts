@@ -10,6 +10,7 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { ListingsMineComponent } from './components/listings-mine/listings-mine.component';
 import { CreateEditAddressComponent } from './components/create-edit-address/create-edit-address.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
+import { MakeOrderComponent } from './components/make-order/make-order.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -60,6 +61,10 @@ const routes: Routes = [
   {
     path: 'addresses/:id/update',
     component: CreateEditAddressComponent,
+  },
+  {
+    path: 'orders/create',
+    component: MakeOrderComponent,
   },
   {
     path: '**',
