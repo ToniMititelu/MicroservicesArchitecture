@@ -23,6 +23,11 @@ export class OrdersService {
     return this.http.get<Order[]>(url);
   }
 
+  getOrdersForMyConfirmation(): Observable<Order[]> {
+    const url = `${this.baseUrl}/mine/confirmation`;
+    return this.http.get<Order[]>(url);
+  }
+
   getOrder(orderId: string): Observable<Order> {
     const url = `${this.baseUrl}/${orderId}/`;
     return this.http.get<Order>(url);
