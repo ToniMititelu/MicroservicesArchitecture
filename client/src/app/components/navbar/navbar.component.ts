@@ -43,10 +43,12 @@ export class NavbarComponent implements OnInit {
           icon: 'pi pi-fw pi-shopping-cart',
           items: [
             {
-              label: 'My orders'
+              label: 'My orders',
+              routerLink: ['orders/mine']
             },
             {
-              label: 'Orders for my listings'
+              label: 'Orders for my listings',
+              routerLink: ['orders/mine/confirmation']
             }
           ],
         }

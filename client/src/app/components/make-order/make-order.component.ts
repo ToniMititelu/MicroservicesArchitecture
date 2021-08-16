@@ -71,8 +71,9 @@ export class MakeOrderComponent implements OnInit {
     this.order = {
       listingId: this.listingId,
       totalAmount: this.listing.price,
-      currency: this.listing.currency.code,
+      currency: this.listing.currency.symbol,
       shippingAddressId: this.addressId,
+      ownerId: this.listing.user_id,
     };
     this.orderService.createOrder(this.order)
       .subscribe((response: Order) => {

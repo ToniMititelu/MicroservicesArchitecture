@@ -18,6 +18,11 @@ export class OrdersService {
     return this.http.get<Order[]>(url);
   }
 
+  getMyOrders(): Observable<Order[]> {
+    const url = `${this.baseUrl}/mine/`;
+    return this.http.get<Order[]>(url);
+  }
+
   getOrder(orderId: string): Observable<Order> {
     const url = `${this.baseUrl}/${orderId}/`;
     return this.http.get<Order>(url);

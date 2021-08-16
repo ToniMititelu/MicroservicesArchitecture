@@ -56,6 +56,8 @@ import { AddressesComponent } from './components/addresses/addresses.component';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { MyOrdersToConfirmComponent } from './components/my-orders-to-confirm/my-orders-to-confirm.component';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -80,6 +82,8 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     GalleriaComponent,
     CreateEditAddressComponent,
     AddressesComponent,
+    MyOrdersComponent,
+    MyOrdersToConfirmComponent,
   ],
   imports: [
     BrowserModule,
