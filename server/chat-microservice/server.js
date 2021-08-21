@@ -28,8 +28,55 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
+const authenticationMiddleware = require("./middlewares/auth");
+const adminMiddleware = require("./middlewares/admin");
+const { StatusCodes } = require('http-status-codes');
+
 app.get('/test', (req, res) => {
     res.json({'message': 'ok hot reload chat'})
+});
+
+require('./models/Room');
+const Room = mongoose.model('rooms');
+const Message = mongoose.model('messages');
+
+app.post('/rooms', authenticationMiddleware, async (req, res) => {
+    const senderId = res.locals.decoded.id;
+    const receiverId = req.body.userId;
+    const message = req.body.message;
+
+    const room = await Room.findOne({
+        $or: [
+            { user_1: senderId, user_2: receiverId },
+            { user_1: receiverId, user_2: senderId },
+        ]
+    }).exec();
+
+    const newMessage = new Message({
+        content: message,
+        sender: senderId,
+        receiver: receiverId
+    });
+
+    if (room) {
+        room.messages.push(newMessage);
+        room.save();
+        return res.status(StatusCodes.OK).json({"message": "Message sent succesfully"});
+    }
+
+    try{
+        const newRoom = new Room({
+            user_1: senderId,
+            user_2: receiverId,
+            messages: [newMessage]
+        });
+        await newRoom.save();
+    } catch (e) {
+        console.error(e);
+        res.status(StatusCodes.BAD_REQUEST).json({"message": "Something went wrong, please try again"});
+    }
+
+    return res.status(StatusCodes.OK).json({"message": "Room created and message sent succesfully"});
 });
 
 const documents = {};
