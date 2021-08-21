@@ -13,6 +13,7 @@ import { AddressesComponent } from './components/addresses/addresses.component';
 import { MakeOrderComponent } from './components/make-order/make-order.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { MyOrdersToConfirmComponent } from './components/my-orders-to-confirm/my-orders-to-confirm.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -75,6 +76,10 @@ const routes: Routes = [
   {
     path: 'orders/mine/confirmation',
     component: MyOrdersToConfirmComponent,
+  },
+  {
+    path: 'chat',
+    component: ChatComponent,
   },
   {
     path: '**',

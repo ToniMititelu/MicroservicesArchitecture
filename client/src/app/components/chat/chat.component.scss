@@ -1,0 +1,9 @@
+.chat-user {
+  max-height: 50px;
+}
+
+:host ::ng-deep {
+  .p-grid {
+    min-width: 100%;
+  }
+}

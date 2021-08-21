@@ -13,6 +13,10 @@ const ShipmentSchema = new Schema({
     shipmentDay: {
         type: Date,
         required: false,
+    },
+    orderId: {
+        type: String,
+        required: true,
     }
 }, {
     timestamps: true

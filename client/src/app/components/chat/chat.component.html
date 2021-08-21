@@ -1,0 +1,20 @@
+<p-splitter [style]="{'min-height': '725px'}" [panelSizes]="[35, 65]">
+  <ng-template pTemplate>
+    <div class="p-grid p-flex-column" [style]="{'padding': '30px'}">
+      <div class="p-col chat-user">
+        <div class="p-grid chat-entry">
+          <div class="p-col p-text-left">
+            user
+          </div>
+          <div class="p-col p-text-right">
+            time
+          </div>
+        </div>
+      </div>
+      <p-divider></p-divider>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    Panel 2
+  </ng-template>
+</p-splitter>
