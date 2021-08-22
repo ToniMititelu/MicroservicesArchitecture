@@ -1,20 +1,54 @@
 <p-splitter [style]="{'min-height': '725px'}" [panelSizes]="[35, 65]">
   <ng-template pTemplate>
-    <div class="p-grid p-flex-column" [style]="{'padding': '30px'}">
-      <div class="p-col chat-user">
-        <div class="p-grid chat-entry">
-          <div class="p-col p-text-left">
-            user
-          </div>
-          <div class="p-col p-text-right">
-            time
-          </div>
+    <div class="p-grid p-flex-column">
+      <div *ngFor="let room of rooms | async">
+        <div class="p-col chat-user" (click)="getRoom(room._id)">
+          <p-card>
+            <div class="p-grid p-flex-column">
+              <div class="p-col">
+                <div class="p-grid chat-entry">
+                  <div class="p-col p-text-left">
+                    {{getUserName(getReceiver(room))}}
+                  </div>
+                  <div class="p-col p-text-right">
+                    {{spliceDate(room.messages[room.messages.length - 1].createdAt)}}
+                  </div>
+                </div>
+              </div>
+              <div class="p-col">
+                <div class="p-col p-text-left">
+                  {{getContentForList(room.messages[room.messages.length - 1])}}
+                </div>
+              </div>
+            </div>
+          </p-card>
         </div>
       </div>
-      <p-divider></p-divider>
     </div>
   </ng-template>
   <ng-template pTemplate>
-    Panel 2
+    <div *ngIf="!currentRoom">
+      Select a room
+    </div>
+    <div *ngIf="currentRoom">
+      <div class="p-grid p-flex-column">
+        <div *ngFor="let message of currentRoom.messages" class="p-col">
+          <p-card styleClass="customPCard">
+            {{message.content}}
+          </p-card>
+        </div>
+      </div>
+      <div class="end">
+        <div class="send-message p-grid">
+          <div class="p-col-11">
+            <input type="text" pInputText [(ngModel)]="message" placeholder="Enter new message...">
+          </div>
+          <div class="p-col-1 p-text-right">
+            <button pButton pRipple type="button" class="p-button p-button-rounded"
+                    icon="pi pi-send" iconPos="right" (click)="sendMessage(getReceiver(currentRoom))"></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </ng-template>
 </p-splitter>

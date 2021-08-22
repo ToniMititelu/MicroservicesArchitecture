@@ -12,7 +12,8 @@ export interface UserLogIn {
 }
 
 export interface User {
-  _id: string;
+  _id?: string;
+  id?: string;
   userName: string;
   email: string;
   role: string;

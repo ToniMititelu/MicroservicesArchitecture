@@ -4,14 +4,41 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+
+export interface MessageTimeStamp {
+  $date: string;
+}
+
+
+export interface Message {
+  createdAt?: MessageTimeStamp;
+  updatedAt?: MessageTimeStamp;
+  seen: boolean;
+  content: string;
+  sender: string;
+  receiver: string;
+}
+
+
+export interface Room {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  user_1: string;
+  user_2: string;
+  messages: Message[];
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   baseUrl = 'http://localhost:8080/api/chat';
 
-  currentDocument = this.socket.fromEvent<DocumentClass>('document');
-  documents = this.socket.fromEvent<string[]>('documents');
+  currentRoom = this.socket.fromEvent<Room>('room');
+  rooms = this.socket.fromEvent<Room[]>('rooms');
+  lastMessage = this.socket.fromEvent<Message>('message-broadcast');
 
   constructor(private socket: Socket,
               private http: HttpClient) {
@@ -22,26 +49,15 @@ export class ChatService {
     return this.http.post(url, body);
   }
 
-  getDocument(id: string): void {
-    this.socket.emit('getDoc', id);
+  getRoomsForUser(userId: string): void {
+    this.socket.emit('getUserRooms', userId);
   }
 
-  newDocument(): void {
-    this.socket.emit('addDoc', {id: this.docId(), doc: ''});
+  getRoom(id: string): void {
+    this.socket.emit('getRoom', id);
   }
 
-  editDocument(document: DocumentClass): void {
-    this.socket.emit('editDoc', document);
-  }
-
-  docId(): string {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < 5; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
+  sendMessage(message: Message): void {
+    this.socket.emit('newMessage', message);
   }
 }

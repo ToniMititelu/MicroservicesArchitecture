@@ -82,7 +82,8 @@ export class NavbarComponent implements OnInit {
     },
     {
       label: 'Messages',
-      icon: 'pi pi-fw pi-envelope'
+      icon: 'pi pi-fw pi-envelope',
+      routerLink: ['chat']
     },
     {
       label: 'Log Out',

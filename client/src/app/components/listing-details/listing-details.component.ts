@@ -7,6 +7,8 @@ import { User } from '../../models/user.interface';
 import { forkJoin } from 'rxjs';
 import { ShipmentService } from '../../services/shipment.service';
 import { Address } from '../../models/address.interface';
+import { ChatService } from '../../services/chat.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-listing-details',
@@ -31,11 +33,14 @@ export class ListingDetailsComponent implements OnInit {
 
   address: Address;
 
+  message: string;
+
   constructor(readonly route: ActivatedRoute,
               readonly router: Router,
               readonly listingsService: ListingsService,
               readonly shipmentService: ShipmentService,
-              readonly userService: UserService,) {
+              readonly userService: UserService,
+              readonly chatService: ChatService) {
     this.route.paramMap.subscribe(paramMap => {
       this.listingId = Number(paramMap.get('id'));
     });
@@ -64,6 +69,21 @@ export class ListingDetailsComponent implements OnInit {
       }, (error) => {
         console.error(error);
       });
+  }
+
+  sendMessage(userId: string): void {
+    if (!this.message) {
+      console.log('can\'t send empty message');
+    }
+
+    this.chatService.createChatRoom({userId, message: this.message})
+      .subscribe(
+        (response) => {
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      );
   }
 
 }

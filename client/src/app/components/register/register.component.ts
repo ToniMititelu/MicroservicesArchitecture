@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   providers: [MessageService]
 })
 export class RegisterComponent {
-  user: UserRegister = {role: 'ROLE_USER'};
+  user: UserRegister = {role: 'USER'};
   requiredFields = ['username', 'email', 'password_1', 'password_2'];
 
   constructor(readonly messageService: MessageService,

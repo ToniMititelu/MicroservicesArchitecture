@@ -2,8 +2,16 @@
   max-height: 50px;
 }
 
+.end {
+  position: fixed;
+}
+
 :host ::ng-deep {
   .p-grid {
     min-width: 100%;
+  }
+
+  .p-inputtext {
+    width: 100%;
   }
 }

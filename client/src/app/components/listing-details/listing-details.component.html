@@ -51,12 +51,12 @@
             </div>
             <div class="p-col">
               <textarea rows="5" cols="30" pInputTextarea [autoResize]="true"
-                        [placeholder]="'Write your message here'"></textarea>
+                        [placeholder]="'Write your message here'" [(ngModel)]="message"></textarea>
             </div>
             <div class="p-col">
               <div class="p-text-right">
                 <p-button type="button" styleClass="p-button p-mr-2" label="Message"
-                          icon="pi pi-envelope"></p-button>
+                          icon="pi pi-envelope" (onClick)="sendMessage(owner._id)"></p-button>
               </div>
             </div>
           </div>

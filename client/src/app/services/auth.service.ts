@@ -28,6 +28,11 @@ export class AuthService {
     return this.http.post<User>(url, user);
   }
 
+  getUsers(): Observable<User[]> {
+    const url = `http://localhost:8080/api/auth/users/`;
+    return this.http.get<User[]>(url);
+  }
+
   getUserData(): Observable<User> {
     const url = `http://localhost:8080/api/auth/me/`;
     return this.http.get<User>(url);

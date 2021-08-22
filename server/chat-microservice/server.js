@@ -73,7 +73,7 @@ app.post('/rooms', authenticationMiddleware, async (req, res) => {
         await newRoom.save();
     } catch (e) {
         console.error(e);
-        res.status(StatusCodes.BAD_REQUEST).json({"message": "Something went wrong, please try again"});
+        return res.status(StatusCodes.BAD_REQUEST).json({"message": "Something went wrong, please try again"});
     }
 
     return res.status(StatusCodes.OK).json({"message": "Room created and message sent succesfully"});
@@ -108,6 +108,45 @@ io.on("connection", socket => {
     });
 
     io.emit("documents", Object.keys(documents));
+
+    socket.on("getUserRooms", async (userId) => {
+        const rooms = await Room.find({
+            $or: [
+                { user_1: userId },
+                { user_2: userId },
+            ]
+        }).lean().exec();
+
+        io.emit("rooms", rooms);
+    });
+
+    socket.on("getRoom", async (id) => {
+        const room = await Room.findById(id).lean().exec();
+
+        safeJoin(room._id);
+
+        console.log(room);
+
+        io.emit("room", room);
+    });
+
+    socket.on("newMessage", async (message) => {
+        const newMessage = new Message({
+            content: message.content,
+            sender: message.sender,
+            receiver: message.receiver,
+            seen: message.seen
+        });
+
+        const room = await Room.findById(previousId).exec();
+
+        room.messages.push(newMessage);
+        room.save();
+
+        io.emit("message", newMessage);
+
+        socket.broadcast.emit('message-broadcast', newMessage);
+    });
 
     console.log(`Socket ${socket.id} has connected`);
 });
