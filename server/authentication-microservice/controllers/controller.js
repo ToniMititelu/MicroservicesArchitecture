@@ -60,7 +60,7 @@ const register = async (req, res) => {
     }
 
     const newUser = new User({
-        'userName': registerData.userName,
+        'userName': registerData.username,
         'email': registerData.email,
         'password': hashedPassword,
         'role': registerData.role,
