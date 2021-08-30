@@ -4,7 +4,7 @@ import { ListingsService } from '../../services/listings.service';
 import { SelectItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { FavouriteOut } from '../../models/favourite.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-listings',
@@ -30,8 +30,20 @@ export class ListingsComponent implements OnInit {
 
   sortField: string;
 
+  category: string;
+
+  user: string;
+
+  searchQuery: string;
+
   constructor(readonly listingsService: ListingsService,
-              readonly router: Router) {
+              readonly router: Router,
+              readonly route: ActivatedRoute) {
+    this.route.queryParamMap.subscribe(queryParam => {
+      this.category = queryParam.get('category');
+      this.user = queryParam.get('user');
+      this.searchQuery = queryParam.get('q');
+    });
   }
 
   ngOnInit(): void {
@@ -55,6 +67,18 @@ export class ListingsComponent implements OnInit {
             value: category.name
           };
         });
+
+        if (this.category) {
+          this.filterByCategory({value: this.category});
+        }
+
+        if (this.user) {
+          this.filterByCategory({value: this.user});
+        }
+
+        if (this.searchQuery) {
+          return;
+        }
       }, (error) => {
         console.error(error);
       });
@@ -120,7 +144,21 @@ export class ListingsComponent implements OnInit {
       return;
     }
 
+    this.updateQueryParams({category: value});
+
     this.listings = this.listings.filter(listing => listing.category.name === value);
+  }
+
+  filterByUser(event): void {
+    this.listings = this.initialListings;
+
+    const value = event.value;
+
+    if (!value) {
+      return;
+    }
+
+    this.listings = this.listings.filter(listing => listing.user_id === value);
   }
 
   getImageSrc(imageSrc: string): string {
@@ -132,5 +170,16 @@ export class ListingsComponent implements OnInit {
       return 'assets/logo.png';
     }
     return this.listingsService.getImageSrc(listing.image_set[0].image);
+  }
+
+  updateQueryParams(newQueryParams: any): void {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: newQueryParams,
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      }
+    );
   }
 }
