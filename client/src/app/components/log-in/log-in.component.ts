@@ -42,12 +42,13 @@ export class LogInComponent {
       .subscribe((response: Token) => {
         this.localStorageService.setItem('access_token', response.access_token);
         this.localStorageService.setItem('refresh_token', response.refresh_token);
+        this.localStorageService.setItem('role', response.role);
         window.location.href = '/home';
       }, ((error: HttpErrorResponse) => {
         console.error(error);
         this.messageService.add({
-          severity: 'danger',
-          summary: `Something went wrong, try again`
+          severity: 'error',
+          summary: error.error.message
         });
       }));
   }

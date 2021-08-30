@@ -23,7 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
     const accessToken = this.localStorageService.getItem('access_token');
 
     if (accessToken) {
-      request = this.addAuthorizationHeader(request, accessToken);      
+      request = this.addAuthorizationHeader(request, accessToken);
     }
 
     return next.handle(request).pipe(
@@ -37,9 +37,12 @@ export class TokenInterceptor implements HttpInterceptor {
             this.localStorageService.clearLocalStorage();
           }
         }
+        if (err.status === StatusCodes.BAD_REQUEST) {
+          return next.handle(request);
+        }
         throwError(err);
       })
-    )
+    );
   }
 
   private addAuthorizationHeader(request: HttpRequest<any>, token: string): HttpRequest<any> {

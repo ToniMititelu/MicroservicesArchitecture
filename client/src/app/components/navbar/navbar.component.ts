@@ -13,84 +13,7 @@ export class NavbarComponent implements OnInit {
 
   showLogIn = false;
   showRegister = false;
-  items: MenuItem[] = [
-    {
-      label: 'Admin',
-      icon: 'pi pi-fw pi-id-card',
-      routerLink: 'home'
-    },
-    {
-      label: 'Account',
-      icon: 'pi pi-fw pi-users',
-      items: [
-        {
-          label: 'Profile',
-          icon: 'pi pi-fw pi-user',
-          items: [
-            {
-              label: 'Edit profile',
-              icon: 'pi pi-fw pi-user-edit',
-            },
-            {
-              label: 'My addresses',
-              icon: 'pi pi-fw pi-home',
-              routerLink: ['addresses/mine'],
-            }
-          ]
-        },
-        {
-          label: 'Orders',
-          icon: 'pi pi-fw pi-shopping-cart',
-          items: [
-            {
-              label: 'My orders',
-              routerLink: ['orders/mine']
-            },
-            {
-              label: 'Orders for my listings',
-              routerLink: ['orders/mine/confirmation']
-            }
-          ],
-        }
-      ]
-    },
-    {
-      label: 'Listings',
-      icon: 'pi pi-fw pi-tags',
-      items: [
-        {
-          label: 'All listings',
-          icon: 'pi pi-fw pi-tags',
-          routerLink: ['listings'],
-        },
-        {
-          label: 'My listings',
-          icon: 'pi pi-fw pi-tag',
-          routerLink: ['listings/mine'],
-        },
-        {
-          label: 'Favorites',
-          icon: 'pi pi-fw pi-heart',
-          routerLink: ['listings/favorites'],
-        },
-        {
-          label: 'Create listing',
-          icon: 'pi pi-fw pi-plus',
-          routerLink: ['listings/create'],
-        },
-      ],
-    },
-    {
-      label: 'Messages',
-      icon: 'pi pi-fw pi-envelope',
-      routerLink: ['chat']
-    },
-    {
-      label: 'Log Out',
-      icon: 'pi pi-fw pi-sign-out',
-      command: (event: Event) => this.logOut(),
-    },
-  ];
+  items: MenuItem[];
 
   constructor(readonly authService: AuthService,
               readonly localStorageService: LocalStorageService,
@@ -110,6 +33,89 @@ export class NavbarComponent implements OnInit {
           command: (event: Event) => this.register(),
         },
       ];
+    } else {
+      this.items = [];
+      const role = this.localStorageService.getItem('role');
+      if (role === 'ADMIN') {
+        this.items.push({
+          label: 'Admin',
+          icon: 'pi pi-fw pi-id-card',
+          routerLink: ['admin']
+        });
+      }
+      this.items.push(...[
+        {
+          label: 'Account',
+          icon: 'pi pi-fw pi-users',
+          items: [
+            {
+              label: 'Profile',
+              icon: 'pi pi-fw pi-user',
+              items: [
+                {
+                  label: 'Edit profile',
+                  icon: 'pi pi-fw pi-user-edit',
+                },
+                {
+                  label: 'My addresses',
+                  icon: 'pi pi-fw pi-home',
+                  routerLink: ['addresses/mine'],
+                }
+              ]
+            },
+            {
+              label: 'Orders',
+              icon: 'pi pi-fw pi-shopping-cart',
+              items: [
+                {
+                  label: 'My orders',
+                  routerLink: ['orders/mine']
+                },
+                {
+                  label: 'Orders for my listings',
+                  routerLink: ['orders/mine/confirmation']
+                }
+              ],
+            }
+          ]
+        },
+        {
+          label: 'Listings',
+          icon: 'pi pi-fw pi-tags',
+          items: [
+            {
+              label: 'All listings',
+              icon: 'pi pi-fw pi-tags',
+              routerLink: ['listings'],
+            },
+            {
+              label: 'My listings',
+              icon: 'pi pi-fw pi-tag',
+              routerLink: ['listings/mine'],
+            },
+            {
+              label: 'Favorites',
+              icon: 'pi pi-fw pi-heart',
+              routerLink: ['listings/favorites'],
+            },
+            {
+              label: 'Create listing',
+              icon: 'pi pi-fw pi-plus',
+              routerLink: ['listings/create'],
+            },
+          ],
+        },
+        {
+          label: 'Messages',
+          icon: 'pi pi-fw pi-envelope',
+          routerLink: ['chat']
+        },
+        {
+          label: 'Log Out',
+          icon: 'pi pi-fw pi-sign-out',
+          command: (event: Event) => this.logOut(),
+        },
+      ]);
     }
   }
 

@@ -14,6 +14,10 @@ import { MakeOrderComponent } from './components/make-order/make-order.component
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { MyOrdersToConfirmComponent } from './components/my-orders-to-confirm/my-orders-to-confirm.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { AdminGuard } from './guards/admin.guard';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -36,18 +40,22 @@ const routes: Routes = [
   {
     path: 'listings/favorites',
     component: FavoritesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'listings/mine',
     component: ListingsMineComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'listings/create',
     component: CreateUpdateListingsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'listings/:id/update',
     component: CreateUpdateListingsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'listings/:id/details',
@@ -56,34 +64,54 @@ const routes: Routes = [
   {
     path: 'addresses/mine',
     component: AddressesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'addresses/create',
     component: CreateEditAddressComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'addresses/:id/update',
     component: CreateEditAddressComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'orders/create',
     component: MakeOrderComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'orders/mine',
     component: MyOrdersComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'orders/mine/confirmation',
     component: MyOrdersToConfirmComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'chat',
     component: ChatComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin',
+    component: NotFoundComponent,
+    canActivate: [AdminGuard]
+  },
+  {
+    path: '403',
+    component: ForbiddenComponent,
+  },
+  {
+    path: '404',
+    component: NotFoundComponent,
   },
   {
     path: '**',
-    component: MainComponent,
+    component: NotFoundComponent,
   }
 ];
 

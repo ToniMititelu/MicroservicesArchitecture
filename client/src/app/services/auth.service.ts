@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.localStorageService.getItem('ROLE') === 'ADMIN';
+    return this.localStorageService.getItem('role') === 'ADMIN';
   }
 
   register(user: UserRegister): Observable<User> {
