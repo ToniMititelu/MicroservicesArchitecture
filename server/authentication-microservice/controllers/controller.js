@@ -147,11 +147,13 @@ const generateTokens = async (user) => {
 
     const access_token = jwt.sign({ data: data }, jwt_secret);
     const refresh_token = jwt.sign({ data: {id: data.id}}, jwt_secret);
+    const role = user.role;
 
     return {
         access_token,
-        refresh_token
-    }
+        refresh_token,
+        role,
+    };
 }
 
 module.exports = {
