@@ -76,4 +76,11 @@ export class CarouselComponent implements OnInit {
     this.router.navigate(['/orders', 'create'], {queryParams: {listing: listingId}});
   }
 
+  getImage(listing: ListingOut): string {
+    if (!listing.image_set.length) {
+      return 'assets/logo.png';
+    }
+    return this.listingsService.getImageSrc(listing.image_set[0].image);
+  }
+
 }

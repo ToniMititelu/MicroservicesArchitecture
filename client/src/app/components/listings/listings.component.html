@@ -1,14 +1,23 @@
 <p-card>
-  <p-dataView #dv [value]="listings" [paginator]="true" [rows]="9" filterBy="name" layout="grid">
+  <p-dataView #dv [value]="listings" [paginator]="true" [rows]="9" filterBy="name" layout="grid"
+    [sortField]="sortField" [sortOrder]="sortOrder">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter(getValueFromEvent($event))">
+        </span>
+        <p-dropdown [options]="sortOptions" placeholder="Sort By Price" [showClear]="true"
+                    (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+        <p-dropdown [options]="categoryOptions" placeholder="Filter by category" [showClear]="true"
+                    (onChange)="filterByCategory($event)"></p-dropdown>
       </div>
     </ng-template>
     <ng-template let-listing pTemplate="listItem">
       <div class="p-col-12">
         <div class="product-list-item">
-          <img [src]="'assets/logo.png'" [alt]="listing.name" style="max-width: 150px; max-height: 150px"/>
+          <img [src]="getImage(listing)" [alt]="listing.name" style="max-width: 150px; max-height: 150px"/>
           <div class="product-list-detail">
             <div class="product-name">{{listing.name}}</div>
             <div class="product-description">{{listing.description}}</div>
@@ -46,7 +55,7 @@
             </div>
           </div>
           <div class="product-grid-item-content">
-            <img [src]="'assets/logo.png'" [alt]="listing.name" style="max-width: 100px; max-height: 100px"/>
+            <img [src]="getImage(listing)" [alt]="listing.name" style="width: 250px; height: 200px"/>
             <div class="product-name">{{listing.name}}</div>
             <div class="product-description">
             </div>

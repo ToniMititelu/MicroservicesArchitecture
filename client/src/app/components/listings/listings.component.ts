@@ -18,9 +18,13 @@ export class ListingsComponent implements OnInit {
 
   listings: ListingOut[];
 
+  initialListings: ListingOut[];
+
   favorites = new Map();
 
   sortOptions: SelectItem[];
+
+  categoryOptions: SelectItem[];
 
   sortOrder: number;
 
@@ -31,17 +35,34 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.listingsService.getListings(this.completion), this.listingsService.getFavorites()])
-      .subscribe(([listings, favorites]) => {
+    forkJoin([
+      this.listingsService.getListings(this.completion),
+      this.listingsService.getFavorites(),
+      this.listingsService.getCategories(),
+    ])
+      .subscribe(([listings, favorites, categories]) => {
         if (!this.listings) {
           this.listings = listings;
+          console.log(this.listings);
+          this.initialListings = listings;
         }
         favorites.forEach(favourite => {
           this.favorites.set(favourite.listing_id, favourite.id);
         });
+        this.categoryOptions = categories.map(category => {
+          return {
+            label: category.name,
+            value: category.name
+          };
+        });
       }, (error) => {
         console.error(error);
       });
+
+    this.sortOptions = [
+      {label: 'Price High to Low', value: '!price'},
+      {label: 'Price Low to High', value: 'price'}
+    ];
   }
 
   addFavourite(listingId: number): void {
@@ -86,4 +107,30 @@ export class ListingsComponent implements OnInit {
     }
   }
 
+  getValueFromEvent(event): string {
+    return (event.target as any).value;
+  }
+
+  filterByCategory(event): void {
+    this.listings = this.initialListings;
+
+    const value = event.value;
+
+    if (!value) {
+      return;
+    }
+
+    this.listings = this.listings.filter(listing => listing.category.name === value);
+  }
+
+  getImageSrc(imageSrc: string): string {
+    return this.listingsService.getImageSrc(imageSrc);
+  }
+
+  getImage(listing: ListingOut): string {
+    if (!listing.image_set.length) {
+      return 'assets/logo.png';
+    }
+    return this.listingsService.getImageSrc(listing.image_set[0].image);
+  }
 }

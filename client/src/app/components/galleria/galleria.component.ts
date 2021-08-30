@@ -109,8 +109,6 @@ export class GalleriaComponent implements OnInit {
   }
 
   getImageSrc(image: string): string {
-    const path = this.listingsService.getImageSrc(image);
-    console.log(path);
-    return path;
+    return this.listingsService.getImageSrc(image);
   }
 }

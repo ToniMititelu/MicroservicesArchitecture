@@ -29,4 +29,5 @@ export interface ListingOut {
   category: Category;
   platform: Platform;
   currency: Currency;
+  image_set: {image: string}[];
 }

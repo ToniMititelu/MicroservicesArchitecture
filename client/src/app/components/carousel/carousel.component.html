@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="product-grid-item-content">
-            <img [src]="'assets/logo.png'" [alt]="listing.name" style="max-width: 100px; max-height: 100px"/>
+            <img [src]="getImage(listing)" [alt]="listing.name" style="width: 250px; height: 200px"/>
             <div class="product-name">{{listing.name}}</div>
           </div>
           <div class="product-grid-item-bottom">

@@ -50,9 +50,8 @@ export class ListingDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    forkJoin([this.listingsService.getListing(this.listingId),
-      this.listingsService.getListingsImages(this.listingId)])
-      .subscribe(async ([listing, images]) => {
+    this.listingsService.getListing(this.listingId)
+      .subscribe(async (listing) => {
         this.listing = listing;
 
         forkJoin([this.userService.getUser(listing.user_id), this.shipmentService.getUserAddress(listing.user_id)])
@@ -65,7 +64,9 @@ export class ListingDetailsComponent implements OnInit {
             this.loading = false;
           });
 
-        this.images = images;
+        this.images = this.listing.image_set.map(image => {
+          return image.image;
+        });
       }, (error) => {
         console.error(error);
       });

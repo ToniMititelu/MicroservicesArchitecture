@@ -12,7 +12,7 @@ import { FavouriteIn, FavouriteOut } from '../models/favourite.interface';
 })
 export class ListingsService {
   baseUrl = 'http://localhost:8080/api/listings/v1';
-  baseImageUrl = 'http://localhost:8080/api/listings/media/listings';
+  baseImageUrl = 'http://localhost:8080/api/listings';
 
   constructor(readonly http: HttpClient) {
   }
@@ -72,7 +72,7 @@ export class ListingsService {
   }
 
   getImageSrc(imageName: string): string {
-    return `${this.baseImageUrl}/${imageName}/`;
+    return `${this.baseImageUrl}${imageName}/`;
   }
 
   deleteListing(id: number): Observable<any> {
