@@ -9,6 +9,7 @@ import { ShipmentService } from '../../services/shipment.service';
 import { Address } from '../../models/address.interface';
 import { ChatService } from '../../services/chat.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-listing-details',
@@ -40,6 +41,7 @@ export class ListingDetailsComponent implements OnInit {
               readonly listingsService: ListingsService,
               readonly shipmentService: ShipmentService,
               readonly userService: UserService,
+              readonly orderService: OrdersService,
               readonly chatService: ChatService) {
     this.route.paramMap.subscribe(paramMap => {
       this.listingId = Number(paramMap.get('id'));
@@ -64,8 +66,6 @@ export class ListingDetailsComponent implements OnInit {
           });
 
         this.images = images;
-        this.images.push(...images);
-        this.images.push(...images);
       }, (error) => {
         console.error(error);
       });
@@ -84,6 +84,10 @@ export class ListingDetailsComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+
+  createOrder(): void {
+    this.router.navigate(['/orders', 'create'], {queryParams: {listing: this.listingId}});
   }
 
 }

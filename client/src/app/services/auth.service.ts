@@ -23,6 +23,10 @@ export class AuthService {
     return this.localStorageService.hasItem('access_token') && this.localStorageService.hasItem('refresh_token');
   }
 
+  isAdmin(): boolean {
+    return this.localStorageService.getItem('ROLE') === 'ADMIN';
+  }
+
   register(user: UserRegister): Observable<User> {
     const url = `http://localhost:8080/api/auth/register/`;
     return this.http.post<User>(url, user);

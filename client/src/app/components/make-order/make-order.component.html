@@ -14,7 +14,7 @@
     </div>
     <p-divider></p-divider>
     <div class="p-col-6 p-offset-3">
-      <a *ngIf="!addresses.length" [routerLink]="['addresses/create']">Add new address <i class="pi pi-external-link"></i></a>
+      <a *ngIf="!addresses.length" [routerLink]="['/addresses/create']">Add new address <i class="pi pi-external-link"></i></a>
       <span *ngIf="addresses.length" class="p-float-label">
         <p-dropdown inputId="address" [autoDisplayFirst]="false" [options]="addressesData"
                     optionLabel="name" optionValue="code" [(ngModel)]="addressId"></p-dropdown>
