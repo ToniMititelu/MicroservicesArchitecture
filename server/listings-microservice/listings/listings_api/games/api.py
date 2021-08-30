@@ -1,13 +1,13 @@
 import logging
-
-from django.db.models import Q
-from ninja import Router, UploadedFile, File
 from typing import List
+
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from ..utils import is_admin, is_owner, get_listing_expiration_date
-from ..schemas import GameListingIn, GameListingOut, Error, Success, UserFavouriteOut, UserFavouriteIn
+from ninja import Router, UploadedFile, File
+
 from ..models import GameListing, GameCategory, Currency, Platform, UserFavourite, Image
+from ..schemas import GameListingIn, GameListingOut, Error, Success, UserFavouriteOut, UserFavouriteIn
+from ..utils import is_admin, is_owner, get_listing_expiration_date
 
 router = Router()
 
@@ -49,7 +49,7 @@ def create_game_listing(request, payload: GameListingIn):
 
 @router.get("/", response=List[GameListingOut], auth=None)
 def get_game_listings(request, user_id: str = None, status: str = None):
-    game_listings = GameListing.objects.all()
+    game_listings = GameListing.objects.prefetch_related('image_set').all()
     if user_id:
         game_listings = game_listings.filter(user_id=user_id)
     if status:

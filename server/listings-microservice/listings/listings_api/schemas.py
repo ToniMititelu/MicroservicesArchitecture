@@ -1,3 +1,5 @@
+from typing import List
+
 from ninja import Schema
 from datetime import datetime
 
@@ -53,6 +55,10 @@ class GameListingIn(Schema):
     platform_code: str
 
 
+class ImageOut(Schema):
+    image: str
+
+
 class GameListingOut(Schema):
     id: int
     name: str
@@ -67,6 +73,7 @@ class GameListingOut(Schema):
     category: GameCategoryOut
     platform: PlatformOut
     currency: CurrencyOut
+    image_set: List[ImageOut]
 
 
 class UserFavouriteIn(Schema):
