@@ -1,10 +1,10 @@
-<p-splitter [style]="{'min-height': '725px'}" [panelSizes]="[35, 65]">
-  <ng-template pTemplate>
-    <div class="p-grid p-flex-column">
-      <div *ngFor="let room of rooms | async">
-        <div class="p-col chat-user" (click)="getRoom(room._id)">
-          <p-card>
-            <div class="p-grid p-flex-column">
+<p-card *ngIf="!loading">
+  <div class="p-grid" style="height: 700px;">
+    <div class="p-col-3" style="margin-top: 8px;">
+      <div class="p-grid p-flex-column">
+        <div *ngFor="let room of rooms | async">
+          <div (click)="getRoom(room._id)">
+            <div class="p-grid p-flex-column" [ngClass]="{'current-room': !!currentRoom && currentRoom._id === room._id}">
               <div class="p-col">
                 <div class="p-grid chat-entry">
                   <div class="p-col p-text-left">
@@ -21,34 +21,39 @@
                 </div>
               </div>
             </div>
-          </p-card>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate>
-    <div *ngIf="!currentRoom">
-      Select a room
-    </div>
-    <div *ngIf="currentRoom">
-      <div class="p-grid p-flex-column">
-        <div *ngFor="let message of currentRoom.messages" class="p-col">
-          <p-card styleClass="customPCard">
-            {{message.content}}
-          </p-card>
-        </div>
-      </div>
-      <div class="end">
-        <div class="send-message p-grid">
-          <div class="p-col-11">
-            <input type="text" pInputText [(ngModel)]="message" placeholder="Enter new message...">
-          </div>
-          <div class="p-col-1 p-text-right">
-            <button pButton pRipple type="button" class="p-button p-button-rounded"
-                    icon="pi pi-send" iconPos="right" (click)="sendMessage(getReceiver(currentRoom))"></button>
           </div>
         </div>
       </div>
     </div>
-  </ng-template>
-</p-splitter>
+    <div class="p-col-9 current-room">
+      <div *ngIf="!currentRoom">
+        Select a room
+      </div>
+      <div class="container-messages" *ngIf="currentRoom">
+        <div class="messages">
+          <div class="p-grid p-flex-column">
+            <div *ngFor="let message of currentRoom.messages" class="p-col">
+              <p-card *ngIf="message.sender === me.id" styleClass="me">
+                {{message.content}}
+              </p-card>
+              <p-card *ngIf="message.sender !== me.id">
+                {{message.content}}
+              </p-card>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 50px;">
+          <div class="send-message p-grid">
+            <div class="p-col-11">
+              <input type="text" pInputText [(ngModel)]="message" placeholder="Enter new message...">
+            </div>
+            <div class="p-col-1 p-text-right">
+              <button pButton pRipple type="button" class="p-button p-button-rounded"
+                      icon="pi pi-send" iconPos="right" (click)="sendMessage(getReceiver(currentRoom))"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-card>

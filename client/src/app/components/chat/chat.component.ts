@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.interface';
 import { ChatService, Message, Room } from '../../services/chat.service';
@@ -24,7 +24,11 @@ export class ChatComponent implements OnInit {
 
   lastMessage: Message;
 
+  loading = false;
+
   private sub: Subscription;
+
+  @ViewChildren('messages') messagesContainer: QueryList<ElementRef>;
 
   constructor(readonly authService: AuthService,
               readonly chatService: ChatService,
@@ -43,10 +47,14 @@ export class ChatComponent implements OnInit {
 
   getRoom(id: string): void {
     this.chatService.getRoom(id);
-    this.chatService.currentRoom.subscribe(room => this.currentRoom = room);
+    this.chatService.currentRoom.subscribe(room => {
+      this.currentRoom = room;
+      this.scrollToBottom();
+    });
     this.socket.on('message-broadcast', message => {
       if (message) {
         this.currentRoom.messages.push(message);
+        this.scrollToBottom();
       }
     });
   }
@@ -89,5 +97,15 @@ export class ChatComponent implements OnInit {
     this.currentRoom.messages.push(newMessage);
 
     this.message = '';
+  }
+
+  scrollToBottom(): void {
+    this.messagesContainer.forEach(container => {
+      try {
+        container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
+      } catch (e) {
+        console.error(e);
+      }
+    });
   }
 }

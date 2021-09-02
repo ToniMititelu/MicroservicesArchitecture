@@ -3,7 +3,20 @@
 }
 
 .end {
-  position: fixed;
+  margin-top: 50px;
+  position: absolute;
+  bottom: 0;
+}
+
+.container-messages {
+  position: relative;
+}
+
+.messages {
+  padding-bottom: 50px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 600px;
 }
 
 :host ::ng-deep {
@@ -14,4 +27,34 @@
   .p-inputtext {
     width: 100%;
   }
+
+  .p-card {
+    .me {
+      background: #ba68c8;
+    }
+  }
+}
+
+.current-room {
+  background: #2e3d52;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
