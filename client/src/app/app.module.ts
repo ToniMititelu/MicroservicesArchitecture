@@ -67,6 +67,9 @@ import { AdminGuard } from './guards/admin.guard';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
+import { AdminListingsComponent } from './components/admin-listings/admin-listings.component';
+import { SliderModule } from 'primeng/slider';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -98,6 +101,8 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     ForbiddenComponent,
     AdminComponent,
     AdminUsersComponent,
+    AdminOrdersComponent,
+    AdminListingsComponent,
   ],
     imports: [
         BrowserModule,
@@ -136,6 +141,7 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
         ConfirmDialogModule,
         SplitterModule,
         MultiSelectModule,
+        SliderModule,
     ],
   providers: [
     RouterLink,

@@ -64,12 +64,13 @@ export class CreateUpdateListingsComponent implements OnInit {
           forkJoin([this.listingsService.getListing(this.listingId), this.listingsService.getListingsImages(this.listingId)])
             .subscribe(async ([listing, images]) => {
               this.currentListing = listing;
+              console.log(listing);
               this.newListing = this.listingsService.convertOutListingToIn(listing);
-              for (const image of images) {
+              for (const image of listing.image_set) {
                 const p = new Promise(((resolve, reject) => {
-                  this.listingsService.getImage(image)
+                  this.listingsService.getImage(image.image)
                     .subscribe((response) => {
-                      const f = new File([response], image, {type: response.type});
+                      const f = new File([response], image.image, {type: response.type});
                       resolve(f);
                     }, (error) => reject(error));
                 }));

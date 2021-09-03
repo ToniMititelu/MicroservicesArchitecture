@@ -1,0 +1,76 @@
+<p-toast></p-toast>
+
+<p-table [value]="listings" responsiveLayout="scroll" [paginator]="true" [rows]="10">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="name">
+        Name &nbsp;<p-sortIcon field="name"></p-sortIcon> &nbsp;
+      </th>
+      <th pSortableColumn="user_id">
+        User &nbsp;<p-sortIcon field="user_id"></p-sortIcon> &nbsp;
+      </th>
+      <th pSortableColumn="price">
+        Price &nbsp;<p-sortIcon field="price"></p-sortIcon> &nbsp;
+      </th>
+      <th>Category</th>
+      <th>Platform</th>
+      <th style="width:8rem"></th>
+    </tr>
+    <tr>
+      <th>
+        <p-columnFilter type="text" field="email"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter type="text" field="userName"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="price" matchMode="between" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+          <ng-template pTemplate="filter" let-filter="filterCallback">
+            <p-slider [ngModel]="priceRange" [range]="true" (onSlideEnd)="filter($event.values)" styleClass="p-m-3"></p-slider>
+            <div class="p-d-flex p-ai-center p-jc-between p-px-2">
+              <span>{{priceRange[0]}}</span>
+              <span>{{priceRange[1]}}</span>
+            </div>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="category.name" matchMode="equals" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [ngModel]="value" [options]="categories" (onChange)="filter($event.value)" placeholder="Any" [showClear]="true">
+              <ng-template let-option pTemplate="item">
+                <span>{{option.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="platform.code" matchMode="equals" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [ngModel]="value" [options]="platforms" (onChange)="filter($event.value)" placeholder="Any" [showClear]="true">
+              <ng-template let-option pTemplate="item">
+                <span>{{option.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-listing>
+    <tr>
+      <td>{{listing.name}}</td>
+      <td>{{users.get(listing.user_id)}}</td>
+      <td>{{listing.price | currency: listing.currency.code:listing.currency.symbol}}</td>
+      <td>{{listing.category.name}}</td>
+      <td>{{listing.platform.full_name}}</td>
+      <td style="text-align:center">
+        <button pButton pRipple type="button" icon="pi pi-pencil"
+                (click)="goToEditPage(listing)" class="p-button-rounded p-button-text"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
