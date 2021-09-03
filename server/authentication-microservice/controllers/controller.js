@@ -128,6 +128,7 @@ const updateUser = async (req, res) => {
     user.userName = req.body.userName || user.userName;
     user.phone = req.body.phone || user.phone;
     user.email = req.body.email || user.email;
+    user.role = req.body.role || user.role;
     
     try {
         return res.status(StatusCodes.OK).json(await user.save());
