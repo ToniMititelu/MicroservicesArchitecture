@@ -10,12 +10,14 @@ import {Observable} from 'rxjs';
 })
 export class AuthService {
 
+  baseUrl = `http://localhost:8080/api/auth`;
+
   constructor(readonly http: HttpClient,
               readonly localStorageService: LocalStorageService) {
   }
 
   logIn(user: UserLogIn): Observable<Token> {
-    const url = `http://localhost:8080/api/auth/login/`;
+    const url = `${this.baseUrl}/login/`;
     return this.http.post<Token>(url, user);
   }
 
@@ -28,18 +30,24 @@ export class AuthService {
   }
 
   register(user: UserRegister): Observable<User> {
-    const url = `http://localhost:8080/api/auth/register/`;
+    const url = `${this.baseUrl}/register/`;
     return this.http.post<User>(url, user);
   }
 
   getUsers(): Observable<User[]> {
-    const url = `http://localhost:8080/api/auth/users/`;
+    const url = `${this.baseUrl}/users/`;
     return this.http.get<User[]>(url);
   }
 
   getUserData(): Observable<User> {
-    const url = `http://localhost:8080/api/auth/me/`;
+    const url = `${this.baseUrl}/me/`;
     return this.http.get<User>(url);
+  }
+
+  updateUser(user: User): Observable<User> {
+    const id = user._id || user.id;
+    const url = `${this.baseUrl}/users/${id}`;
+    return this.http.put<User>(url, user);
   }
 
   logOut(): void {
@@ -47,7 +55,7 @@ export class AuthService {
   }
 
   refreshToken(refreshToken: string): boolean {
-    const url = `http://localhost:8080/api/auth/refresh-token/`;
+    const url = `${this.baseUrl}/refresh-token/`;
     this.http.post(url, {refresh_token: refreshToken})
       .subscribe((response: Token) => {
         this.localStorageService.setItem('access_token', response.access_token);

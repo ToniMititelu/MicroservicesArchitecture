@@ -18,6 +18,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminComponent } from './components/admin/admin.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -98,7 +99,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: NotFoundComponent,
+    component: AdminComponent,
     canActivate: [AdminGuard]
   },
   {
