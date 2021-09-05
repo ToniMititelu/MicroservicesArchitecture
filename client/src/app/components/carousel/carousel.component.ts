@@ -39,11 +39,7 @@ export class CarouselComponent implements OnInit {
     this.listingsService.getListings()
       .subscribe(
         (response) => {
-          this.listings = [];
-          for (let i = 0; i < 4; i++) {
-            this.listings.push(...response);
-          }
-          // this.listings = response;
+          this.listings = response.slice(0, 9);
         }, (error) => {
           console.error(error);
         }

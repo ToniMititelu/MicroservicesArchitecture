@@ -12,6 +12,8 @@
                     (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
         <p-dropdown [options]="categoryOptions" placeholder="Filter by category" [showClear]="true"
                     (onChange)="filterByCategory($event)"></p-dropdown>
+        <p-dropdown [options]="platformOptions" placeholder="Filter by platform" [showClear]="true"
+                    (onChange)="filterByPlatform($event)"></p-dropdown>
       </div>
     </ng-template>
     <ng-template let-listing pTemplate="listItem">
@@ -20,8 +22,8 @@
           <img [src]="getImage(listing)" [alt]="listing.name" style="max-width: 150px; max-height: 150px"/>
           <div class="product-list-detail">
             <div class="product-name">{{listing.name}}</div>
-            <div class="product-description">{{listing.description}}</div>
-            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{listing.category.name}}</span>
+            <div class="product-description">{{listing.category.name}}</div>
+            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{listing.platform.full_name}}</span>
           </div>
           <div class="product-list-action">
             <div class="product-price">
@@ -45,7 +47,7 @@
           <div class="product-grid-item-top">
             <div>
               <i class="pi pi-tag product-category-icon"></i>
-              <span class="product-category">{{listing.category.name}}</span>
+              <span class="product-category">{{listing.platform.full_name}}</span>
             </div>
             <div class="product-badge p-text-right">
               <p-button *ngIf="favorites.has(listing.id)" type="button" (onClick)="removeFavourite(listing.id)"
@@ -57,8 +59,7 @@
           <div class="product-grid-item-content">
             <img [src]="getImage(listing)" [alt]="listing.name" style="width: 250px; height: 200px"/>
             <div class="product-name">{{listing.name}}</div>
-            <div class="product-description">
-            </div>
+            <div class="product-description">{{listing.category.name}}</div>
           </div>
           <div class="product-grid-item-bottom">
             <span class="product-price">{{listing.currency.symbol}}{{listing.price}}</span>

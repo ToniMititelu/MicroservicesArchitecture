@@ -26,6 +26,8 @@ export class ListingsComponent implements OnInit {
 
   categoryOptions: SelectItem[];
 
+  platformOptions: SelectItem[];
+
   sortOrder: number;
 
   sortField: string;
@@ -33,6 +35,8 @@ export class ListingsComponent implements OnInit {
   category: string;
 
   user: string;
+
+  platform: string;
 
   searchQuery: string;
 
@@ -51,11 +55,11 @@ export class ListingsComponent implements OnInit {
       this.listingsService.getListings(this.completion),
       this.listingsService.getFavorites(),
       this.listingsService.getCategories(),
+      this.listingsService.getPlatforms(),
     ])
-      .subscribe(([listings, favorites, categories]) => {
+      .subscribe(([listings, favorites, categories, platforms]) => {
         if (!this.listings) {
           this.listings = listings;
-          console.log(this.listings);
           this.initialListings = listings;
         }
         favorites.forEach(favourite => {
@@ -68,12 +72,23 @@ export class ListingsComponent implements OnInit {
           };
         });
 
+        this.platformOptions = platforms.map(platform => {
+          return {
+            label: platform.full_name,
+            value: platform.code,
+          };
+        });
+
         if (this.category) {
           this.filterByCategory({value: this.category});
         }
 
         if (this.user) {
           this.filterByCategory({value: this.user});
+        }
+
+        if (this.platform) {
+          this.filterByCategory({value: this.platform});
         }
 
         if (this.searchQuery) {
@@ -136,17 +151,35 @@ export class ListingsComponent implements OnInit {
   }
 
   filterByCategory(event): void {
-    this.listings = this.initialListings;
-
     const value = event.value;
 
+    this.category = value;
+
     if (!value) {
+      this.listings = this.initialListings;
+      if (this.platform) {
+        this.filterByPlatform({value: this.platform});
+      }
       return;
     }
 
-    this.updateQueryParams({category: value});
-
     this.listings = this.listings.filter(listing => listing.category.name === value);
+  }
+
+  filterByPlatform(event): void {
+    const value = event.value;
+
+    this.platform = value;
+
+    if (!value) {
+      this.listings = this.initialListings;
+      if (this.category) {
+        this.filterByCategory({value: this.category});
+      }
+      return;
+    }
+
+    this.listings = this.listings.filter(listing => listing.platform.code === value);
   }
 
   filterByUser(event): void {
