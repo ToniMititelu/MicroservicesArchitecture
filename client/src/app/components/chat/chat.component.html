@@ -11,7 +11,7 @@
                     {{getUserName(getReceiver(room))}}
                   </div>
                   <div class="p-col p-text-right">
-                    {{spliceDate(room.messages[room.messages.length - 1].createdAt)}}
+                    {{room.messages[room.messages.length - 1].createdAt | date: 'd/M/yy, h:mm a'}}
                   </div>
                 </div>
               </div>
@@ -33,11 +33,21 @@
         <div class="messages">
           <div class="p-grid p-flex-column">
             <div *ngFor="let message of currentRoom.messages" class="p-col">
-              <p-card *ngIf="message.sender === me.id" styleClass="me">
-                {{message.content}}
+              <p-card *ngIf="message.sender === (me.id || me._id)" styleClass="me">
+                <div class="p-text-left">
+                  {{message.content}}
+                </div>
+                <div class="p-text-right">
+                  {{message.createdAt | date: 'd/M/yy, h:mm a'}}
+                </div>
               </p-card>
-              <p-card *ngIf="message.sender !== me.id">
-                {{message.content}}
+              <p-card *ngIf="message.sender !== (me.id || me._id)">
+                <div class="p-text-left">
+                  {{message.content}}
+                </div>
+                <div class="p-text-right">
+                  {{message.createdAt | date: 'd/M/yy, h:mm a'}}
+                </div>
               </p-card>
             </div>
           </div>

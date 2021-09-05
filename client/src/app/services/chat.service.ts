@@ -11,8 +11,8 @@ export interface MessageTimeStamp {
 
 
 export interface Message {
-  createdAt?: MessageTimeStamp;
-  updatedAt?: MessageTimeStamp;
+  createdAt?: string;
+  updatedAt?: string;
   seen: boolean;
   content: string;
   sender: string;
