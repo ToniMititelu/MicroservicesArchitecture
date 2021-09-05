@@ -36,12 +36,15 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     forkJoin([this.authService.getUserData(), this.authService.getUsers()])
       .subscribe(([me, users]) => {
         this.me = me;
         this.users = users;
-        this.chatService.getRoomsForUser(this.me.id);
+        console.log(this.me);
+        this.chatService.getRoomsForUser(this.me.id || this.me._id);
         this.rooms = this.chatService.rooms;
+        this.loading = false;
       });
   }
 
@@ -81,14 +84,14 @@ export class ChatComponent implements OnInit {
   }
 
   getReceiver(room: Room): string {
-    return room.user_1 === this.me.id ? room.user_2 : room.user_1;
+    return room.user_1 === (this.me.id || this.me._id) ? room.user_2 : room.user_1;
   }
 
   sendMessage(receiverId: string): void {
     const newMessage: Message = {
       seen: false,
       content: this.message,
-      sender: this.me.id,
+      sender: (this.me.id || this.me._id),
       receiver: receiverId,
     };
 
