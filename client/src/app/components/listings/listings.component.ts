@@ -46,6 +46,7 @@ export class ListingsComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParam => {
       this.category = queryParam.get('category');
       this.user = queryParam.get('user');
+      this.platform = queryParam.get('platform');
       this.searchQuery = queryParam.get('q');
     });
   }
@@ -84,11 +85,11 @@ export class ListingsComponent implements OnInit {
         }
 
         if (this.user) {
-          this.filterByCategory({value: this.user});
+          this.filterByUser({value: this.user});
         }
 
         if (this.platform) {
-          this.filterByCategory({value: this.platform});
+          this.filterByPlatform({value: this.platform});
         }
 
         if (this.searchQuery) {

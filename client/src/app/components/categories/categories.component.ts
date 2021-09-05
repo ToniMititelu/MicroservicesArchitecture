@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from '../../models/categories.interface';
+import { ListingsService } from '../../services/listings.service';
+import { forkJoin } from 'rxjs';
+import { Platform } from '../../models/platform';
 
 @Component({
   selector: 'app-categories',
@@ -7,9 +11,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
+  categories: Category[] = [];
+
+  platforms: Platform[] = [];
+
+  constructor(readonly listingsService: ListingsService) { }
 
   ngOnInit(): void {
+    forkJoin([this.listingsService.getCategories(), this.listingsService.getPlatforms()])
+      .subscribe(([categories, platforms]) => {
+        this.categories = categories;
+        this.platforms = platforms;
+      });
   }
 
+  getQueryParamsPlatforms(platform: Platform): any {
+    return {platform: platform.code};
+  }
+
+  getQueryParamsCategories(category: Category): any {
+    return {category: category.name};
+  }
 }

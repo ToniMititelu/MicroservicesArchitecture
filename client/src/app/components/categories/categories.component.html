@@ -1,29 +1,21 @@
 <p-card>
   <div style="text-align: center;">
-    <p class="mono-font">Categories</p>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
-    <a [routerLink]="['']">
-      <p-avatar icon="pi pi-user" styleClass="p-mr-4" size="xlarge" shape="circle"
-                [style]="{'background-color':'#ffffff', 'color': '#000000'}"></p-avatar>
-    </a>
+    <p class="mono-font">Search by category</p>
+    <div class="p-grid">
+      <div class="p-col" *ngFor="let category of categories">
+        <a [routerLink]="['/', 'listings']" [queryParams]="getQueryParamsCategories(category)">
+          <p-avatar label="{{category.name.substring(0, 3)}}" styleClass="p-mr-4" size="xlarge" shape="circle"></p-avatar>
+        </a>
+      </div>
+    </div>
+    <p-divider></p-divider>
+    <p class="mono-font">Search by platform</p>
+    <div class="p-grid">
+      <div class="p-col" *ngFor="let platform of platforms">
+        <a [routerLink]="['/', 'listings']" [queryParams]="getQueryParamsPlatforms(platform)">
+          <p-avatar label="{{platform.code}}" styleClass="p-mr-4" size="xlarge" shape="circle"></p-avatar>
+        </a>
+      </div>
+    </div>
   </div>
 </p-card>
