@@ -61,10 +61,12 @@ const deleteOrder = async (req, res) => {
 }
 
 const confirmOrder = async (req, res) => {
-    const order = res.locals.decoded.order;
+    const order = await Order.findById(req.params.id).exec();
     order.status = 'ACCEPTED';
     try {
         order.save();
+        const redisClient = require("../redis").redisClient;
+        redisClient.publish("order-confirmed", JSON.stringify(order));
         return res.status(StatusCodes.OK).json({'message': 'Order confirmed by owner. Sent for shipment.'});
     } catch (e) {
         console.error(e);

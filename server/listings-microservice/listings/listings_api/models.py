@@ -1,7 +1,5 @@
 from django.db import models
-from django.utils import timezone
 
-from listings import settings
 from .validators import validate_price
 
 
@@ -35,15 +33,11 @@ class GameListing(Model):
     is_negotiable = models.BooleanField(default=False)
     is_sealed = models.BooleanField(default=False)
     is_digital = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     expiration_date = models.DateTimeField()
     category = models.ForeignKey(GameCategory, on_delete=models.PROTECT)
     platform = models.ForeignKey(Platform, on_delete=models.PROTECT, null=True)
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT, null=True)
-
-    @property
-    def is_active(self):
-        """Check if listing is still active"""
-        return timezone.now() < self.expiration_date
 
 
 class Image(Model):

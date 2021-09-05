@@ -50,6 +50,7 @@ class GameListingIn(Schema):
     is_negotiable: bool = False
     is_sealed: bool = False
     is_digital: bool = False
+    is_active: bool = True
     category_id: int
     currency_code: str
     platform_code: str

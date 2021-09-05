@@ -11,7 +11,8 @@ router.get('/', authenticationMiddleware, adminMiddleware, controller.getAllOrde
 router.get('/mine/', authenticationMiddleware, controller.getMyOrders);
 router.get('/mine/confirmation/', authenticationMiddleware, controller.getOrdersForMyConfirmation);
 router.get('/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.getOrder);
-router.get('/:id/confirm/', authenticationMiddleware, adminOrOwnerMiddleware, controller.confirmOrder);
+// router.get('/:id/confirm/', authenticationMiddleware, adminOrOwnerMiddleware, controller.confirmOrder);
+router.get('/:id/confirm/', controller.confirmOrder);
 
 router.post('/', authenticationMiddleware, controller.createOrder);
 router.delete('/:id/', authenticationMiddleware, adminOrOwnerMiddleware, controller.deleteOrder);

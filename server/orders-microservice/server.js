@@ -26,4 +26,7 @@ app.get('/test', (req, res) => {
 
 app.use('/', require('./routes/routes'));
 
+const redisConfig = require("./redis");
+const redisClient = redisConfig.redisClient;
+
 app.listen(PORT, () => console.log(`All set up. Listening on ${PORT}!`))

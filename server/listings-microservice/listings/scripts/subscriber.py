@@ -11,12 +11,10 @@ p.subscribe(channel)
 while True:
     message = p.get_message()
     if message and not message['data'] == 1:
+        print(message['data'])
         message = message['data'].decode('utf-8')
-        try:
-            payload = json.dumps(message)
-        except json.JSONDecodeError:
-            print("wrong payload")
-            payload = dict()
+
+        payload = json.loads(message)
 
         listing_id = payload.get('listingId')
 

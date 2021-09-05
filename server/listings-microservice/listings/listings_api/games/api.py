@@ -49,17 +49,9 @@ def create_game_listing(request, payload: GameListingIn):
 
 @router.get("/", response=List[GameListingOut], auth=None)
 def get_game_listings(request, user_id: str = None, status: str = None):
-    game_listings = GameListing.objects.prefetch_related('image_set').all()
+    game_listings = GameListing.objects.prefetch_related('image_set').filter(is_active=True)
     if user_id:
         game_listings = game_listings.filter(user_id=user_id)
-    if status:
-        filters = dict()
-        now = timezone.now()
-        if status == 'active':
-            filters['expiration_date__gte'] = now
-        elif status == 'inactive':
-            filters['expiration_date__lt'] = now
-        game_listings = game_listings.filter(**filters)
     return game_listings
 
 
