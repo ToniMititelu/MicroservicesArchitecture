@@ -19,3 +19,8 @@ export interface User {
   role: string;
   phone: string;
 }
+
+export interface PasswordChanges {
+  oldPassword?: string;
+  newPassword?: string;
+}

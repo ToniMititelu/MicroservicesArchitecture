@@ -55,6 +55,7 @@ export class NavbarComponent implements OnInit {
                 {
                   label: 'Edit profile',
                   icon: 'pi pi-fw pi-user-edit',
+                  routerLink: ['profile'],
                 },
                 {
                   label: 'My addresses',

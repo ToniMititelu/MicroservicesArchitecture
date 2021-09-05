@@ -70,6 +70,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
 import { AdminListingsComponent } from './components/admin-listings/admin-listings.component';
 import { SliderModule } from 'primeng/slider';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
 
@@ -103,6 +104,7 @@ const config: SocketIoConfig = {url: 'http://localhost:8085', options: {}};
     AdminUsersComponent,
     AdminOrdersComponent,
     AdminListingsComponent,
+    ProfileComponent,
   ],
     imports: [
         BrowserModule,

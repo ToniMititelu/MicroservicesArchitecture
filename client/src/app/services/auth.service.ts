@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {User, UserLogIn, UserRegister} from '../models/user.interface';
-import {Token} from '../models/token.interface';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { LocalStorageService } from './local-storage.service';
+import { PasswordChanges, User, UserLogIn, UserRegister } from '../models/user.interface';
+import { Token } from '../models/token.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,11 @@ export class AuthService {
     return this.http.post<User>(url, user);
   }
 
+  getMe(): Observable<User> {
+    const url = `${this.baseUrl}/me/`;
+    return this.http.get<User>(url);
+  }
+
   getUsers(): Observable<User[]> {
     const url = `${this.baseUrl}/users/`;
     return this.http.get<User[]>(url);
@@ -48,6 +53,11 @@ export class AuthService {
     const id = user._id || user.id;
     const url = `${this.baseUrl}/users/${id}`;
     return this.http.put<User>(url, user);
+  }
+
+  changePassword(formData: PasswordChanges): Observable<any> {
+    const url = `${this.baseUrl}/change-password/`;
+    return this.http.post(url, formData);
   }
 
   logOut(): void {
