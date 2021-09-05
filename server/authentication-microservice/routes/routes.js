@@ -15,5 +15,6 @@ router.put('/users/:id', authenticationMiddleware, controller.updateUser);
 router.post('/login', controller.logIn);
 router.post('/register', controller.register);
 router.post('/refresh-token', controller.refreshToken);
+router.post('/change-password', authenticationMiddleware, controller.changePassword);
 
 module.exports = router;

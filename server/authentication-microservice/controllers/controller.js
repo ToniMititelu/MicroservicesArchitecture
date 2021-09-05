@@ -94,7 +94,9 @@ const refreshToken = async (req, res) => {
 }
 
 const me = async (req, res) => {
-    return res.status(StatusCodes.OK).json(res.locals.decoded);
+    const id = res.locals.decoded.id;
+    const user = await User.findById(id).lean().exec();
+    return res.status(StatusCodes.OK).json(user);
 }
 
 const users = async (req, res) => {
@@ -138,13 +140,57 @@ const updateUser = async (req, res) => {
     }
 }
 
+const changePassword = async (req, res) => {
+    const id = res.locals.decoded.id;
+    const user = await User.findById(id).exec();
+    const formData = {...req.body};
+
+    let match;
+    try {
+        match = await bcrypt.compare(formData.oldPassword, user.password);
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, please try again'});
+    }
+
+    if (!match) {
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Wrong password'});
+    }
+
+    let salt;
+    try {
+        salt = await bcrypt.genSalt(10);
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Could not generate salt for password hashing'});
+    }
+
+    let hashedPassword;
+    try {
+        hashedPassword = await bcrypt.hash(formData.newPassword, salt);
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Could not hash password'});
+    }
+
+    user.password = hashedPassword;
+    try {
+        user.save();
+        return res.status(StatusCodes.OK).json({'message': 'Changed password'});
+    } catch (e) {
+        console.error(e);
+        return res.status(StatusCodes.BAD_REQUEST).json({'message': 'Something went wrong, try again.'});
+    }
+}
+
 const generateTokens = async (user) => {
     const data = {
         id: user._id.toString(),
         userName: user.userName,
         email: user.email,
-        role: user.role
-    }
+        role: user.role,
+        phone: user.phone,
+    };
 
     const access_token = jwt.sign({ data: data }, jwt_secret);
     const refresh_token = jwt.sign({ data: {id: data.id}}, jwt_secret);
@@ -165,4 +211,5 @@ module.exports = {
     getUser,
     updateUser,
     refreshToken,
+    changePassword,
 };
