@@ -10,6 +10,7 @@ import { Address } from '../../models/address.interface';
 import { ChatService } from '../../services/chat.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { OrdersService } from '../../services/orders.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-listing-details',
@@ -42,7 +43,8 @@ export class ListingDetailsComponent implements OnInit {
               readonly shipmentService: ShipmentService,
               readonly userService: UserService,
               readonly orderService: OrdersService,
-              readonly chatService: ChatService) {
+              readonly chatService: ChatService,
+              readonly messageService: MessageService) {
     this.route.paramMap.subscribe(paramMap => {
       this.listingId = Number(paramMap.get('id'));
     });
@@ -74,15 +76,17 @@ export class ListingDetailsComponent implements OnInit {
 
   sendMessage(userId: string): void {
     if (!this.message) {
-      console.log('can\'t send empty message');
+      this.messageService.add({severity: 'error', summary: 'Can\'t send empty message'});
+      return;
     }
 
     this.chatService.createChatRoom({userId, message: this.message})
       .subscribe(
         (response) => {
-          console.log(response);
+          this.messageService.add({severity: 'success', summary: 'Message sent successfully!'});
+          this.message = '';
         }, (error: HttpErrorResponse) => {
-          console.error(error);
+          this.messageService.add({severity: 'error', summary: 'Something went wrong, please try again!', detail: error.error.message});
         }
       );
   }

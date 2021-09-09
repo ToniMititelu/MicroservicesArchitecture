@@ -124,6 +124,9 @@ export class CreateUpdateListingsComponent implements OnInit {
                   summary: 'Request succeeded',
                   detail: `Listing ${this.currentListing.name} saved successfully`
                 });
+                setTimeout(() => {
+                  this.router.navigate(['/', 'listings', 'mine']);
+                }, 1500);
               }, (error) => {
                 console.error(error);
               });

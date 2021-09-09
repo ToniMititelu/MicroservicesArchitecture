@@ -49,6 +49,11 @@ export class ChatService {
     return this.http.post(url, body);
   }
 
+  hasNewMessages(): Observable<any> {
+    const url = `${this.baseUrl}/has-messages/`;
+    return this.http.get(url);
+  }
+
   getRoomsForUser(userId: string): void {
     this.socket.emit('getUserRooms', userId);
   }

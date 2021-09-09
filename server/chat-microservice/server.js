@@ -79,6 +79,36 @@ app.post('/rooms', authenticationMiddleware, async (req, res) => {
     return res.status(StatusCodes.OK).json({"message": "Room created and message sent succesfully"});
 });
 
+app.get('/has-messages', authenticationMiddleware, async (req, res) => {
+    const userId = res.locals.decoded.id;
+
+    const rooms = await Room.find({
+        $or: [
+            { user_1: senderId, user_2: receiverId },
+            { user_1: receiverId, user_2: senderId },
+        ]
+    }).exec();
+
+    rooms.forEach(room => {
+        const hasNewMessage = false;
+        room.messages.forEach(message => {
+            if (message.seen) {
+                hasNewMessage = true;
+                return;
+            }
+        });
+        if (hasNewMessage) {
+            return;
+        }
+    });
+
+    if (hasNewMessage) {
+        return res.status(StatusCodes.OK).json({"message": "New messages"});
+    }
+
+    return res.status(StatusCodes.BAD_REQUEST).json({"message": "No new messages"});
+});
+
 const documents = {};
 
 io.on("connection", socket => {

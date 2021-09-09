@@ -49,7 +49,7 @@
               <i class="pi pi-tag product-category-icon"></i>
               <span class="product-category">{{listing.platform.full_name}}</span>
             </div>
-            <div class="product-badge p-text-right">
+            <div *ngIf="!mine" class="product-badge p-text-right">
               <p-button *ngIf="favorites.has(listing.id)" type="button" (onClick)="removeFavourite(listing.id)"
                         styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>
               <p-button *ngIf="!favorites.has(listing.id)" type="button" (onClick)="addFavourite(listing.id)"
@@ -64,8 +64,8 @@
           <div class="product-grid-item-bottom">
             <span class="product-price">{{listing.currency.symbol}}{{listing.price}}</span>
             <div class="car-buttons p-mt-5">
-              <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"
-                        (onClick)="goToDetailPage(listing.id)"></p-button>
+<!--              <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"-->
+<!--                        (onClick)="goToDetailPage(listing.id)"></p-button>-->
               <p-button *ngIf="!mine" type="button" styleClass="p-button p-button-rounded p-mr-2"
                         icon="pi pi-shopping-cart" (onClick)="goToCreateOrderPage(listing.id)"></p-button>
               <p-button *ngIf="mine" type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-pencil"

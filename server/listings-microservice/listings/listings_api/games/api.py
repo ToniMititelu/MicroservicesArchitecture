@@ -52,7 +52,7 @@ def get_game_listings(request, user_id: str = None, status: str = None):
     game_listings = GameListing.objects.prefetch_related('image_set').filter(is_active=True)
     if user_id:
         game_listings = game_listings.filter(user_id=user_id)
-    return game_listings
+    return game_listings.order_by('-created_at')
 
 
 @router.get("/mine/", response=List[GameListingOut])
