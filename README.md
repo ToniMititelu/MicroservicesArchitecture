@@ -4,7 +4,7 @@ Simple microservice [architecture](https://drive.google.com/file/d/1Gkxu3mlmp_DR
 
 ## How to use
 * First, clone the repository: `git clone https://github.com/ToniMititelu/MicroservicesArchitecture.git`
-* From the route folder run `docker-compose up -d --build`
+* From the root folder run `docker-compose up -d --build`
 	* This will build the containers described in `docker-compose.yml` 
 	* After it finishes building it will start the backend services and databases
 	* You can find every `Dockerfile` for the backend service in it's folder (e.g. `server/listings-microservice/Dockerfile`)
